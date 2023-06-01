@@ -1,6 +1,7 @@
 #ifndef SISTEMA_H
 #define SISTEMA_H
 #include "Componente.h"
+#include "PlantillaLista.h"
 
 class Sistema: public Componente { //Composite
 private:

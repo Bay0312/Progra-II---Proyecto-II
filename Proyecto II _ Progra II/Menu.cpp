@@ -71,7 +71,7 @@ void Menu::mantenimiento(){
 	//COMPLETAR
 }
 void Menu::compraSistema(){
-	//COMPLETAR
+	//COMPLETAR //TOMAR EN CUENTA LA COMPRA EN LINEA, DONDE SOLO SE PUEDEN COMPRAR SISTEMAS PREARMADOS.
 }
 void Menu::compraComponente(){
 	//COMPLETAR
