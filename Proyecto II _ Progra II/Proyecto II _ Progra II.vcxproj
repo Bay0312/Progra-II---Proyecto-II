@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClInclude Include="Componente.h" />
     <ClInclude Include="Fuente.h" />
+    <ClInclude Include="Iterador.h" />
     <ClInclude Include="IteradorLista.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Nodo.h" />

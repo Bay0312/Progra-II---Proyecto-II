@@ -10,6 +10,7 @@ private:
 	T* info;
 	Nodo<T>* sig;
 public:
+	Nodo();
 	Nodo(T*, Nodo<T>*);
 	virtual ~Nodo();
 	T* getInfo() const;
@@ -19,10 +20,10 @@ public:
 };
 
 template<class T>
-Nodo<T>::Nodo(T* dato, Nodo<T>* _sig) {
-	info = dato;
-	sig = _sig;
-}
+Nodo<T>::Nodo() : info{ nullptr }, sig{ nullptr } {}
+
+template<class T>
+Nodo<T>::Nodo(T* dato, Nodo<T>* _sig) : info{ dato }, sig{ _sig } {}
 
 template<class T>
 Nodo<T>::~Nodo() {

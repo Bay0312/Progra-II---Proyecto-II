@@ -2,6 +2,7 @@
 #define PLANTILLALISTA_H
 #include "Nodo.h"
 #include "IteradorLista.h"
+#include "Iterador.h"
 
 template <class T>
 class Lista {
@@ -15,7 +16,9 @@ public:
 	void insertarFinal(T*);
 	std::string toString();
 	int getCan();
+	double getPrecioTotal();
 	IteradorLista<T>* getIterador();
+	Iterador<T>* getIterador2();
 };
 
 template<class T>
@@ -51,10 +54,10 @@ void Lista<T>::insertarFinal(T* dato) {
 
 template<class T>
 std::string Lista<T>::toString() {
-	stringstream s;
+	std::stringstream s;
 	actual = primero;
 	while (actual != nullptr) {
-		s << actual->getInfo() << endl;
+		s << actual->getInfo()->toString() << std::endl;
 		actual = actual->getSig();
 	}
 	return s.str();
@@ -66,8 +69,24 @@ int Lista<T>::getCan() {
 }
 
 template<class T>
+double Lista<T>::getPrecioTotal() {
+	double precio = 0;
+	actual = primero;
+	while (actual != nullptr) {
+		precio += actual->getInfo()->obtenerPrecio();
+		actual = actual->getSig();
+	}
+	return precio;
+}
+
+template<class T>
 IteradorLista<T>* Lista<T>::getIterador() {
 	return new IteradorLista<T>(primero);
+}
+
+template<class T>
+Iterador<T>* Lista<T>::getIterador2() {
+	return new Iterador<T>(primero);
 }
 
 #endif // !PLANTILLALISTA_H

@@ -8,7 +8,7 @@ private:
 	Lista<Componente>* lista;
 
 public:
-	Sistema(int);
+	Sistema();
 	virtual ~Sistema();
 	virtual void obtenerPrecio();
 	virtual std::string toString();
