@@ -2,11 +2,11 @@
 #define ITERADORLISTA_H
 #include "Nodo.h"
 
-template <class T>
+// Actualizado
 
+template <class T>
 class IteradorLista {
 private:
-	Nodo<T>* primero;
 	Nodo<T>* actual;
 public:
 	IteradorLista(Nodo<T>*);
@@ -18,8 +18,7 @@ public:
 
 template<class T>
 IteradorLista<T>::IteradorLista(Nodo<T>* _primero) {
-	primero = _primero;
-	actual = primero;
+	actual = _primero;
 }
 
 template<class T>
@@ -28,7 +27,7 @@ IteradorLista<T>::~IteradorLista() {
 
 template<class T>
 bool IteradorLista<T>::vacia() {
-	return primero->getSig();
+	return actual == nullptr;
 }
 
 template<class T>
@@ -42,7 +41,7 @@ Nodo<T>* IteradorLista<T>::getSig() {
 
 template<class T>
 bool IteradorLista<T>::hayMas() {
-	return actual->getSig();
+	return actual != nullptr && actual->getSig() != nullptr;
 }
 
 #endif // !ITERADORLISTA_H

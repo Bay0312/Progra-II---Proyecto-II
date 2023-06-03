@@ -28,6 +28,24 @@
     <Filter Include="Archivos de origen\Composite">
       <UniqueIdentifier>{c41bb54b-a409-4bc9-95a0-d8a505187efb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de encabezado\Clientes">
+      <UniqueIdentifier>{db511c75-337a-4f78-8889-227f15431c01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Clientes">
+      <UniqueIdentifier>{8a425270-70d4-475c-8166-6e8972eb93ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Variado">
+      <UniqueIdentifier>{a37071e6-8478-4fc3-9d06-8c1b71c4996e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Variado">
+      <UniqueIdentifier>{8b77b00f-ef64-4ebc-a5eb-0f5b253605b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Ventas">
+      <UniqueIdentifier>{d79878fc-60af-4ff6-a8e7-df29622c9166}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Ventas">
+      <UniqueIdentifier>{f2662991-ca03-4491-b38f-74c97b2c129c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Procesador.h">
@@ -54,11 +72,35 @@
     <ClInclude Include="Sistema.h">
       <Filter>Archivos de encabezado\Composite</Filter>
     </ClInclude>
-    <ClInclude Include="Menu.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="Iterador.h">
       <Filter>Archivos de encabezado\Listas</Filter>
+    </ClInclude>
+    <ClInclude Include="Cliente.h">
+      <Filter>Archivos de encabezado\Clientes</Filter>
+    </ClInclude>
+    <ClInclude Include="Empresa.h">
+      <Filter>Archivos de encabezado\Clientes</Filter>
+    </ClInclude>
+    <ClInclude Include="Persona.h">
+      <Filter>Archivos de encabezado\Clientes</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Archivos de encabezado\Variado</Filter>
+    </ClInclude>
+    <ClInclude Include="Catalogo.h">
+      <Filter>Archivos de encabezado\Variado</Filter>
+    </ClInclude>
+    <ClInclude Include="Fecha.h">
+      <Filter>Archivos de encabezado\Variado</Filter>
+    </ClInclude>
+    <ClInclude Include="Venta.h">
+      <Filter>Archivos de encabezado\Ventas</Filter>
+    </ClInclude>
+    <ClInclude Include="VentaDirecta.h">
+      <Filter>Archivos de encabezado\Ventas</Filter>
+    </ClInclude>
+    <ClInclude Include="VentaEnLinea.h">
+      <Filter>Archivos de encabezado\Ventas</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -77,8 +119,29 @@
     <ClCompile Include="Sistema.cpp">
       <Filter>Archivos de origen\Composite</Filter>
     </ClCompile>
+    <ClCompile Include="Empresa.cpp">
+      <Filter>Archivos de origen\Clientes</Filter>
+    </ClCompile>
+    <ClCompile Include="Persona.cpp">
+      <Filter>Archivos de origen\Clientes</Filter>
+    </ClCompile>
+    <ClCompile Include="Catalogo.cpp">
+      <Filter>Archivos de origen\Variado</Filter>
+    </ClCompile>
     <ClCompile Include="Menu.cpp">
-      <Filter>Archivos de origen</Filter>
+      <Filter>Archivos de origen\Variado</Filter>
+    </ClCompile>
+    <ClCompile Include="Fecha.cpp">
+      <Filter>Archivos de origen\Variado</Filter>
+    </ClCompile>
+    <ClCompile Include="Venta.cpp">
+      <Filter>Archivos de origen\Ventas</Filter>
+    </ClCompile>
+    <ClCompile Include="VentaDirecta.cpp">
+      <Filter>Archivos de origen\Ventas</Filter>
+    </ClCompile>
+    <ClCompile Include="VentaEnLinea.cpp">
+      <Filter>Archivos de origen\Ventas</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

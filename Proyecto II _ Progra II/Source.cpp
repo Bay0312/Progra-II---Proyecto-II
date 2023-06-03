@@ -25,13 +25,16 @@ int main() {
 	std::cout << lista->toString();
 	std::cout << "\n\n\n\n";
 
+	IteradorLista<Componente>* ite2;
+	ite2 = lista->getIterador();
 
-	Iterador<Componente>* ite1 = lista->getIterador2();
+	//Iterador<Componente>* ite1 = lista->getIterador2();
 	std::cout << "---Ahora vamos a usar el iterador---\n";
-	for (int i = 0; i < 5; i++) {
+
+	/*for (int i = 0; i < 5; i++) {
 		std::cout << ite1->operator*() << '\n';
 		ite1->operator++();
-	}
+	}*/
 	/*while (ite1 != nullptr) { //Se cae el programa porque llega a un nullptr, parece no identificar cuando es diferente de nullptr)
 		std::cout << ite1->operator*();
 		ite1->operator++();

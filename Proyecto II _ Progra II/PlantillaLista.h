@@ -2,23 +2,25 @@
 #define PLANTILLALISTA_H
 #include "Nodo.h"
 #include "IteradorLista.h"
-#include "Iterador.h"
+// Actualizado
 
 template <class T>
+
 class Lista {
 private:
 	Nodo<T>* actual;
 	Nodo<T>* primero;
 	int can;
+
 public:
 	Lista();
 	virtual ~Lista();
 	void insertarFinal(T*);
 	std::string toString();
 	int getCan();
-	double getPrecioTotal();
 	IteradorLista<T>* getIterador();
-	Iterador<T>* getIterador2();
+	void notificarObservers();
+	double getPrecioTotal();
 };
 
 template<class T>
@@ -30,10 +32,11 @@ Lista<T>::Lista() {
 
 template<class T>
 Lista<T>::~Lista() {
-	while (primero != nullptr) {
-		actual = primero;
-		primero = primero->getSig();
+	actual = primero;
+	while (actual != nullptr) {
+		Nodo<T>* siguiente = actual->getSig();
 		delete actual;
+		actual = siguiente;
 	}
 }
 
@@ -57,7 +60,7 @@ std::string Lista<T>::toString() {
 	std::stringstream s;
 	actual = primero;
 	while (actual != nullptr) {
-		s << actual->getInfo()->toString() << std::endl;
+		s << actual->getInfo() << std::endl;
 		actual = actual->getSig();
 	}
 	return s.str();
@@ -69,6 +72,20 @@ int Lista<T>::getCan() {
 }
 
 template<class T>
+IteradorLista<T>* Lista<T>::getIterador() {
+	return new IteradorLista<T>(primero);
+}
+
+template<class Cliente>
+void Lista<Cliente>::notificarObservers() {
+	actual = primero;
+	while (actual != nullptr) {
+		actual->getInfo()->update();
+		actual = actual->getSig();
+	}
+}
+
+template<class T>
 double Lista<T>::getPrecioTotal() {
 	double precio = 0;
 	actual = primero;
@@ -77,16 +94,6 @@ double Lista<T>::getPrecioTotal() {
 		actual = actual->getSig();
 	}
 	return precio;
-}
-
-template<class T>
-IteradorLista<T>* Lista<T>::getIterador() {
-	return new IteradorLista<T>(primero);
-}
-
-template<class T>
-Iterador<T>* Lista<T>::getIterador2() {
-	return new Iterador<T>(primero);
 }
 
 #endif // !PLANTILLALISTA_H
