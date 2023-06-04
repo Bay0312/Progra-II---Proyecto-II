@@ -1,3 +1,14 @@
+/* --------------------------------------------------------------------
+*
+* EIF204 Programación 2
+* Proyecto 2
+*
+* 4-0254-0670 David Calvo H. grupo 02
+* 7-0300-0234 Bayron Vega A. grupo 03
+*
+* -------------------------------------------------------------------
+*/
+
 #include "Menu.h"
 
 Menu::Menu() {
@@ -60,6 +71,9 @@ void Menu::ventaDirecta(){
 		case 2:
 			compraSistema();
 			break;
+		case 3: 
+			system("cls");
+			break;
 		default:
 			std::cout << "Opcion invalida. Intentelo de nuevo\n";
 			break;
@@ -67,9 +81,41 @@ void Menu::ventaDirecta(){
 	} while (opcion != 3);
 }
 void Menu::ventaEnLinea(){ compraSistema(); }
+
 void Menu::mantenimiento(){
-	//COMPLETAR
+	int opcion = 0;
+	//También se podrá actualizar cualquier otra información disponible en el sistema.
+	//Aquí debería estar tambien la inclusion de clientes.
+	do {
+		std::cout << "----------MENU DE MANTENIMIENTO----------\n"
+			<< "1. Ingresar Componentes al Catalogo\n"
+			<< "2. Ingresar Sistemas al Catalogo.\n"
+			<< "3. Eliminar un Item del Catalogo\n"
+			<< "4. Volver\n"
+			<< "-----------------------------------\n"
+			<< "Ingrese una opcion: ";
+		std::cin >> opcion;
+
+		switch (opcion) {
+		case 1:
+			//IngresarComponente();
+			break;
+		case 2:
+			//IngresarSistema();
+			break;
+		case 3:
+			//EliminarItem();
+			break;
+		case 4:
+			system("cls");
+			break;
+		default:
+			std::cout << "Opcion invalida. Intentelo de nuevo\n";
+			break;
+		}
+	} while (opcion != 4);
 }
+
 void Menu::compraSistema(){
 	//COMPLETAR //TOMAR EN CUENTA LA COMPRA EN LINEA, DONDE SOLO SE PUEDEN COMPRAR SISTEMAS PREARMADOS.
 }
@@ -116,6 +162,7 @@ void Menu::cargarDatos(){
 	}
 	file.close(); //Se cierra el archivo.
 }
+
 void Menu::buscaExcepcion(){
 	//HACE FALTA
 }

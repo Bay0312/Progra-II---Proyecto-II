@@ -1,3 +1,14 @@
+/* --------------------------------------------------------------------
+*
+* EIF204 Programación 2
+* Proyecto 2
+*
+* 4-0254-0670 David Calvo H. grupo 02
+* 7-0300-0234 Bayron Vega A. grupo 03
+*
+* -------------------------------------------------------------------
+*/
+
 #ifndef FECHA_H
 #define FECHA_H
 #include <sstream>

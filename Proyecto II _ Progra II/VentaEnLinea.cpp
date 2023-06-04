@@ -1,18 +1,39 @@
+/* --------------------------------------------------------------------
+*
+* EIF204 Programación 2
+* Proyecto 2
+*
+* 4-0254-0670 David Calvo H. grupo 02
+* 7-0300-0234 Bayron Vega A. grupo 03
+*
+* -------------------------------------------------------------------
+*/
+
 #include "VentaEnLinea.h"
 
-VentaEnLinea::VentaEnLinea(Fecha* fec, Cliente* cli, std::string ven, char tip, double prec, int direc, double costEnv) {
+//Constructor y Destructor
+VentaEnLinea::VentaEnLinea(Fecha* fec, Cliente* cli, std::string ven, double prec, int direc, double costEnv) {
 	fechaDeVenta = fec;
 	cliente = cli;
 	vendido = ven;
-	tipo = tip;
 	precio = prec;
 	direccionEnvio = direc;
 	costoEnvio = costEnv;
 }
 VentaEnLinea::~VentaEnLinea() {}
 
+//Getters
 double VentaEnLinea::getPrecio() {
 	return precio + determinaCostoEnvio(direccionEnvio); //Buscar forma de determinar si lo que se vende es un sistema para agregarle el 35%
+}
+
+int VentaEnLinea::getDireccionEnvio() {
+	return direccionEnvio;
+}
+
+//Setters
+void VentaEnLinea::setDireccionEnvio(int direc) {
+	direccionEnvio = direc;
 }
 
 std::string VentaEnLinea::toString() {
@@ -27,6 +48,8 @@ std::string VentaEnLinea::toString() {
 		<< "Precio Final: " << precio << " colones.";
 	return s.str();
 }
+
+bool VentaEnLinea::esVentaDirecta() { return false; }
 
 double VentaEnLinea::determinaCostoEnvio(int cod) {
 	switch (cod) { //Se devuelve un costo en dolares
@@ -50,7 +73,8 @@ double VentaEnLinea::determinaCostoEnvio(int cod) {
 		break;
 	case 91: return 80.00; //Costa Rica(local) //Fuera de la GAM
 		break;
-	default:
+	default: return 0.00;
 		break;
 	}
+	return 0.00;
 }

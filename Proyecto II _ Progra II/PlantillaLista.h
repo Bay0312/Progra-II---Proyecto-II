@@ -1,3 +1,14 @@
+/* --------------------------------------------------------------------
+*
+* EIF204 Programación 2
+* Proyecto 2
+*
+* 4-0254-0670 David Calvo H. grupo 02
+* 7-0300-0234 Bayron Vega A. grupo 03
+*
+* -------------------------------------------------------------------
+*/
+
 #ifndef PLANTILLALISTA_H
 #define PLANTILLALISTA_H
 #include "Nodo.h"
@@ -13,16 +24,22 @@ private:
 	int can;
 
 public:
+	//Constructor y Destructor
 	Lista();
 	virtual ~Lista();
-	void insertarFinal(T*);
-	std::string toString();
+
+	//Getters
 	int getCan();
 	IteradorLista<T>* getIterador();
+
+	//Metodos Varios
+	void insertarFinal(T*);
 	void notificarObservers();
 	double getPrecioTotal();
+	std::string toString();
 };
 
+//Constructor y Destructor
 template<class T>
 Lista<T>::Lista() {
 	primero = nullptr;
@@ -40,6 +57,18 @@ Lista<T>::~Lista() {
 	}
 }
 
+//Getters
+template<class T>
+int Lista<T>::getCan() {
+	return can;
+}
+
+template<class T>
+IteradorLista<T>* Lista<T>::getIterador() {
+	return new IteradorLista<T>(primero);
+}
+
+//Metodos Varios
 template<class T>
 void Lista<T>::insertarFinal(T* dato) {
 	actual = primero;
@@ -53,27 +82,6 @@ void Lista<T>::insertarFinal(T* dato) {
 		actual->setSig(new Nodo<T>(dato, nullptr));
 	}
 	can++;
-}
-
-template<class T>
-std::string Lista<T>::toString() {
-	std::stringstream s;
-	actual = primero;
-	while (actual != nullptr) {
-		s << actual->getInfo() << std::endl;
-		actual = actual->getSig();
-	}
-	return s.str();
-}
-
-template<class T>
-int Lista<T>::getCan() {
-	return can;
-}
-
-template<class T>
-IteradorLista<T>* Lista<T>::getIterador() {
-	return new IteradorLista<T>(primero);
 }
 
 template<class Cliente>
@@ -94,6 +102,17 @@ double Lista<T>::getPrecioTotal() {
 		actual = actual->getSig();
 	}
 	return precio;
+}
+
+template<class T>
+std::string Lista<T>::toString() {
+	std::stringstream s;
+	actual = primero;
+	while (actual != nullptr) {
+		s << actual->getInfo() << std::endl;
+		actual = actual->getSig();
+	}
+	return s.str();
 }
 
 #endif // !PLANTILLALISTA_H
