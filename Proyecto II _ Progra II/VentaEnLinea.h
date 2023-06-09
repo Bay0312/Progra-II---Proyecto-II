@@ -15,20 +15,24 @@
 
 class VentaEnLinea : public Venta {
 private:
+	Cliente* cliente; //Persona a la que se le vendió.
 	int direccionEnvio; //Aqui va el codigo del lugar al que se envia
 	double costoEnvio; //Puede que no hafa falta
 
 public:
 	//Constructor y Destructor
-	VentaEnLinea(Fecha*, Cliente*, std::string, double, int, double);
+	VentaEnLinea(Fecha*, Cliente*, Lista<Componente>*, int);
 	virtual ~VentaEnLinea();
 
 	//Getters
+	Cliente* getCliente();
 	int getDireccionEnvio();
 	virtual double getPrecio();
+	double getCostoEnvio();
 
 	//Setters
-	void setDireccionEnvio(int);
+	void setCliente(Cliente*);
+	void setDireccionEnvio(int); //Con este setters es posible settear también al costoEnvio.
 
 	//Metodos Varios
 	virtual std::string toString();

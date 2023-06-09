@@ -12,16 +12,16 @@
 #include "Venta.h"
 
 //Constructor y Destructor
-Venta::Venta(){}
+Venta::Venta(Fecha* _fecha, Lista<Componente>* _vendido)
+	: fechaDeVenta{ _fecha }, listaDeVendido{ _vendido } {
+	precio = listaDeVendido->getPrecioTotal();
+}
 Venta::~Venta(){}
 
 //Getters
 Fecha* Venta::getFechaDeVenta() { return fechaDeVenta; }
-Cliente* Venta::getCliente() { return cliente; }
-std::string Venta::getVendido() { return vendido; }
+Lista<Componente>* Venta::getVendido() { return listaDeVendido; }
 
 //Setters
 void Venta::setFechaDeVenta(Fecha* ptr) { fechaDeVenta = ptr; }
-void Venta::setCliente(Cliente* ptr) { cliente = ptr; }
-void Venta::setVendido(std::string ven) { vendido = ven; }
 void Venta::setPrecio(double prec) { precio = prec; }

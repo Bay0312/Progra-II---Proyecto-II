@@ -14,11 +14,19 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
-//#include "TiendaEquipo.h"
+#include "Tienda.h"
+#include "Persona.h"
+#include "Empresa.h"
+#include "VentaDirecta.h"
+#include "VentaEnLinea.h"
+#include "Fuente.h"
+#include "Procesador.h"
+#include "Parlante.h"
 
 class Menu {
 private:
-	//TiendaEquipo* tienda;
+	Tienda* tienda;
+	Lista<Componente>* carrito; //Lista de componentes que se van a comprar
 
 public:
 	Menu();
@@ -31,7 +39,15 @@ public:
 
 	//Metodos de Ayuda
 	void compraSistema();
+	void personalizarSistema(bool);
 	void compraComponente();
+	void confirmaCarrito(std::string); 
+	void registroCliente(int);
+	//void actualizarItem();
+
+	//Agregacion y Eliminacion de Componentes y Sistemas
+	void ingresarComponente();
+	void eliminarItem();
 
 	//Metodos de Archivos
 	void guardarDatos();

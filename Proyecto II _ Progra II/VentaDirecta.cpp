@@ -11,24 +11,25 @@
 
 #include "VentaDirecta.h"
 
-VentaDirecta::VentaDirecta(Fecha* fec, Cliente* cli, std::string ven, double prec) {
-	fechaDeVenta = fec;
-	cliente = cli;
-	vendido = ven;
-	precio = prec;
+VentaDirecta::VentaDirecta(Fecha* fec, Lista<Componente>* _ven, std::string _factNom) : Venta(fec, _ven), facturaNombre{ _factNom } {
 }
-
 VentaDirecta::~VentaDirecta() {}
 
+//Getters
+std::string VentaDirecta::getFacturaNombre() { return facturaNombre; }
 double VentaDirecta::getPrecio() { return precio; }
 
+//Setters
+void VentaDirecta::setFacturaNombre(std::string _factNom) { facturaNombre = _factNom; }
+
+//Metodos Varios
 std::string VentaDirecta::toString() {
 	std::stringstream s;
 	s << "----------VENTA DIRECTA----------\n"
 		<< "Fecha de Venta: " << fechaDeVenta->toString()
 		<< "Cliente: \n"
-		<< cliente->toString() << '\n'
-		<< "Articulos vendidos: \n" << vendido << '\n'
+		<< facturaNombre << '\n'
+		<< "Articulos vendidos: \n" << listaDeVendido->toString() << '\n'
 		<< "Precio Final: " << precio << " colones.";
 	return s.str();
 }

@@ -26,6 +26,8 @@ public:
 	//Getter
 	Nodo<T>* getPNodo();
 
+	bool hayMas();
+
 	//Operadores
 	Iterador* operator = (Iterador&);
 	bool operator != (const Iterador&);
@@ -44,6 +46,11 @@ Iterador<T>::~Iterador(){}
 //Getter
 template<class T>
 Nodo<T>* Iterador<T>::getPNodo() { return pNodo; }
+
+template<class T>
+bool Iterador<T>::hayMas() { 
+	return pNodo != nullptr && pNodo->getSig() != nullptr;
+}
 
 //Operadores
 template<class T>

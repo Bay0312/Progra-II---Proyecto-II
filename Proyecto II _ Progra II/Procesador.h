@@ -23,6 +23,7 @@ public:
 	//Constructores y Destructor
 	Procesador();
 	Procesador(std::string, std::string, std::string, std::string, double);
+	Procesador(const Procesador&);
 	virtual ~Procesador();
 	
 	//Getters
@@ -36,9 +37,10 @@ public:
 	void setCaracteristicas(std::string);
 
 	//Metodos Varios
-	virtual void agregar();
+	virtual void agregar(Componente* = nullptr);
 	virtual double obtenerPrecio() const;
 	virtual std::string toString() const;
+	virtual bool esSistema() const;
 	
 	
 

@@ -17,25 +17,21 @@
 class Venta {
 protected:
 	Fecha* fechaDeVenta;
-	Cliente* cliente; //Cliente que compró
-	std::string vendido; //Listado de lo que se vendió
+	Lista<Componente>* listaDeVendido; //Lista de productos que se vendieron
 	double precio;
 
 public:
 	//Constructor y Destructor
-	Venta();
+	Venta(Fecha*, Lista<Componente>*);
 	virtual ~Venta();
 
 	//Getters
 	Fecha* getFechaDeVenta();
-	Cliente* getCliente();
-	std::string getVendido();
+	Lista<Componente>* getVendido();
 	virtual double getPrecio() = 0;
 
 	//Setters
 	void setFechaDeVenta(Fecha*);
-	void setCliente(Cliente*);
-	void setVendido(std::string);
 	void setPrecio(double);
 
 	//Metodos Varios

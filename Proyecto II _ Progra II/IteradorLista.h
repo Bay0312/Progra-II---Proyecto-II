@@ -26,9 +26,12 @@ public:
 	virtual ~IteradorLista();
 
 	//Metodos Varios
+	Nodo<T>* getActual(); 
+	void setActual(Nodo<T>*);
 	bool vacia();
 	Nodo<T>* getSig();
 	bool hayMas();
+	void operator ++();
 };
 
 //Constructor y Destructor
@@ -43,17 +46,24 @@ IteradorLista<T>::~IteradorLista() {
 
 //Metodos Varios
 template<class T>
+Nodo<T>* IteradorLista<T>::getActual(){
+	return actual;
+}
+
+template<class T>
+void IteradorLista<T>::setActual(Nodo<T>* act){
+	actual = act;
+}
+
+template<class T>
 bool IteradorLista<T>::vacia() {
 	return actual == nullptr;
 }
 
 template<class T>
 Nodo<T>* IteradorLista<T>::getSig() {
-	if (hayMas()) {
 		actual = actual->getSig();
 		return actual;
-	}
-	return nullptr;
 }
 
 template<class T>
@@ -61,4 +71,8 @@ bool IteradorLista<T>::hayMas() {
 	return actual != nullptr && actual->getSig() != nullptr;
 }
 
+template<class T>
+void IteradorLista<T>::operator++() {
+	actual = actual->getSig();
+}
 #endif // !ITERADORLISTA_H

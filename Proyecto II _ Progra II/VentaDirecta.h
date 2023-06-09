@@ -14,14 +14,19 @@
 #include "Venta.h"
 
 class VentaDirecta: public Venta {
+private:
+	std::string facturaNombre; //El nombre de la persona al que debe estar la factura
 public:
 	//Constructor y Destructor
-	VentaDirecta(Fecha*, Cliente*, std::string, double);
+	VentaDirecta(Fecha*, Lista<Componente>*, std::string);
 	virtual ~VentaDirecta();
 
 	//Getter
+	std::string getFacturaNombre();
 	virtual double getPrecio();
 
+	//Setter
+	void setFacturaNombre(std::string);
 	//Metodos Varios
 	virtual std::string toString();
 	virtual bool esVentaDirecta();

@@ -16,15 +16,12 @@
 
 class Empresa : public Cliente {
 private:
-	std::string cedJurid;
 	std::string nomEmpresa;
+
 public:
-	Empresa(std::string, std::string, std::string, std::string);
+	Empresa(std::string, std::string, std::string, std::string, Catalogo* = nullptr);
 	virtual ~Empresa();
-	std::string getCedJurid();
 	std::string getNomEmpresa();
-	std::string getNomPais() override;
-	std::string getCiudad() override;
 	std::string toString() override;
 	void update() override;
 };

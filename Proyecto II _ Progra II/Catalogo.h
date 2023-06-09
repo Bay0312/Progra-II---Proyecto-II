@@ -15,21 +15,32 @@
 #include "Sistema.h"
 // Actualizado
 
+class Cliente; //Declaracion previa
+
 class Catalogo {
 private:
-	Lista<Cliente>* listClients; 
-	Lista<Sistema>* listSistemas; 
+	Lista<Cliente>* listClients; //Observers //Clientes subscritos al catalogo
+	Lista<Componente>* listProductos; //Pueden entrar componentes o sistemas
 
 public:
 	//Constructor y Destructor
 	Catalogo();
 	virtual ~Catalogo();
 
+	//Getters
+	Lista<Cliente>* getListClients();
+	Lista<Componente>* getListProductos();
+
 	//Metodos Varios
 	void agregarCliente(Cliente*);
-	void agregarSistema(Sistema*);
+	void agregarProducto(Componente*);
 	std::string mostrarClientes();
-	std::string mostrarSistemas();
+	std::string mostrarSoloSistemas();
+	std::string mostrarSoloComponentes();
+	std::string mostrarFuentes();
+	std::string mostrarProcesadores();
+	std::string mostrarParlantes();
+	std::string mostrarTodo();
 	void notify();
 
 };

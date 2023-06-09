@@ -12,17 +12,17 @@
 #include "VentaEnLinea.h"
 
 //Constructor y Destructor
-VentaEnLinea::VentaEnLinea(Fecha* fec, Cliente* cli, std::string ven, double prec, int direc, double costEnv) {
-	fechaDeVenta = fec;
-	cliente = cli;
-	vendido = ven;
-	precio = prec;
-	direccionEnvio = direc;
-	costoEnvio = costEnv;
+VentaEnLinea::VentaEnLinea(Fecha* fec, Cliente* cli, Lista<Componente>* _ven, int direc)
+	: Venta(fec, _ven), direccionEnvio{ direc }, cliente{ cli } {
+	costoEnvio = this->determinaCostoEnvio(direc);
 }
 VentaEnLinea::~VentaEnLinea() {}
 
 //Getters
+Cliente* VentaEnLinea::getCliente() {
+	return cliente;
+}
+
 double VentaEnLinea::getPrecio() {
 	return precio + determinaCostoEnvio(direccionEnvio); //Buscar forma de determinar si lo que se vende es un sistema para agregarle el 35%
 }
@@ -31,7 +31,15 @@ int VentaEnLinea::getDireccionEnvio() {
 	return direccionEnvio;
 }
 
+double VentaEnLinea::getCostoEnvio() {
+	return costoEnvio;
+}
+
 //Setters
+void VentaEnLinea::setCliente(Cliente* _cliente) {
+	cliente = _cliente;
+}
+
 void VentaEnLinea::setDireccionEnvio(int direc) {
 	direccionEnvio = direc;
 }

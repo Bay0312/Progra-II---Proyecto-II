@@ -12,6 +12,9 @@
 #ifndef SISTEMA_H
 #define SISTEMA_H
 #include "Componente.h"
+#include "Fuente.h"
+#include "Procesador.h"
+#include "Parlante.h"
 #include "PlantillaLista.h"
 
 class Sistema: public Componente { //Composite
@@ -21,12 +24,17 @@ private:
 public:
 	//Constructor y Destructor
 	Sistema();
+	Sistema(const Sistema&);
 	virtual ~Sistema();
+
+	//Getter
+	Lista<Componente>* getLista() const;
 
 	//Metodos Varios
 	virtual void agregar(Componente*);
-	virtual void obtenerPrecio();
-	virtual std::string toString();
+	virtual double obtenerPrecio() const;
+	virtual std::string toString() const;
+	virtual bool esSistema() const;
 	
 };
 

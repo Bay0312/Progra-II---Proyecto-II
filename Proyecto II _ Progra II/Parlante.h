@@ -23,6 +23,7 @@ public:
 	//Constructores y Destructor
 	Parlante();
 	Parlante(std::string, std::string, std::string, std::string, double);
+	Parlante(const Parlante&);
 	virtual ~Parlante();
 	
 	//Getters
@@ -36,9 +37,10 @@ public:
 	void setCaracteristicas(std::string);
 	
 	//Metodos Varios
-	virtual void agregar();
+	virtual void agregar(Componente* = nullptr);
 	virtual double obtenerPrecio() const;
 	virtual std::string toString() const;
+	virtual bool esSistema() const;
 
 };
 

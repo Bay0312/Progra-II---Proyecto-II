@@ -12,18 +12,14 @@
 #include "Persona.h"
 // Actualizado
 
-Persona::Persona(std::string _nomPais, std::string _ciudad, std::string _id, std::string _correo, std::string _nac, std::string _nombre) : Cliente(_nomPais, _ciudad) {
-	id = _id;
+Persona::Persona(std::string _nomPais, std::string _ciudad, std::string _id, std::string _correo, std::string _nac, std::string _nombre, Catalogo* _catalogo)
+	: Cliente(_nomPais, _ciudad, _id, _catalogo) {
 	correo = _correo;
 	nacionalidad = _nac;
 	nombre = _nombre;
 }
 
 Persona::~Persona() {
-}
-
-std::string Persona::getId() {
-	return id;
 }
 
 std::string Persona::getCorreo() {
@@ -36,14 +32,6 @@ std::string Persona::getNacionalidad() {
 
 std::string Persona::getNombre() {
 	return nombre;
-}
-
-std::string Persona::getNomPais() {
-	return nomPais;
-}
-
-std::string Persona::getCiudad() {
-	return ciudad;
 }
 
 std::string Persona::toString() {

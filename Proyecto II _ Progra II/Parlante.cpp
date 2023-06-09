@@ -19,6 +19,14 @@ Parlante::Parlante(std::string cat, std::string tip, std::string car, std::strin
 	precio = pre;
 }
 
+Parlante::Parlante(const Parlante& copParlante) {
+	this->categoria = copParlante.categoria;
+	this->tipo = copParlante.tipo;
+	this->caracteristicas = copParlante.caracteristicas;
+	this->codigo = copParlante.codigo;
+	this->precio = copParlante.precio;
+}
+
 Parlante::~Parlante() {}
 
 //Getters
@@ -32,11 +40,13 @@ void Parlante::setTipo(std::string componente) { this->tipo = componente; }
 void Parlante::setCaracteristicas(std::string caracteristicas) { this->caracteristicas = caracteristicas; }
 
 //Metodos Varios
-void Parlante::agregar() { throw new std::string("No se supone que la clase parlante agregue."); } //La clase que agrega es el composite, por lo que aqui se lanza una excepcion.
+void Parlante::agregar(Componente* nan) { throw new std::string("No se supone que la clase parlante agregue."); } //La clase que agrega es el composite, por lo que aqui se lanza una excepcion.
 double Parlante::obtenerPrecio() const { return precio; } //Se retorna solo el precio, dado que es un componente individual.
 
 std::string Parlante::toString() const {
 	std::stringstream s;
-	s << "Parlante: " << codigo << " " << precio << " " << categoria << " " << tipo << " " << caracteristicas << std::endl;
+	s << categoria << '\t' << tipo << '\t' << codigo << '\t' << caracteristicas << '\t' << precio;
 	return s.str();
 }
+
+bool Parlante::esSistema() const { return false; }

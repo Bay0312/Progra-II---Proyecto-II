@@ -13,18 +13,27 @@
 #define CLIENTE_H
 #include <sstream>
 #include <iostream>
+#include "Catalogo.h"
 // Actualizado
+
+class Catalogo; //Declaracion previa
 
 class Cliente {  // Observer
 protected:
+	std::string id; //Ya sea cedula juridica o no.
 	std::string nomPais;
 	std::string ciudad;
+	Catalogo* catalogo;
+
 public:
-	Cliente(std::string = " ", std::string = " ") {}
+	Cliente(std::string _nomPais = " ", std::string _ciudad= " ", std::string _id = "", Catalogo* _catalogo = nullptr)
+		: nomPais{ _nomPais }, ciudad{ _ciudad }, id{ _id }, catalogo { _catalogo } {}
 	virtual ~Cliente() {}
+	virtual void setCatalogo(Catalogo* _catalogo) { catalogo = _catalogo; }
+	std::string getId() { return id; }
+	std::string getNomPais() { return nomPais; }
+	std::string getCiudad() { return ciudad; }
 	virtual std::string toString() = 0;
-	virtual std::string getNomPais() = 0;
-	virtual std::string getCiudad() = 0;
 	virtual void update() = 0;
 };
 
