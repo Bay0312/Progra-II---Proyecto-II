@@ -36,8 +36,10 @@ public:
 
 	//Metodos Varios
 	virtual std::string toString();
+	virtual std::string guardarDatos();
 	virtual bool esVentaDirecta();
-	double determinaCostoEnvio(int);
+	static std::string mostrarPDirecciones();
+	static double determinaCostoEnvio(int);
 
 };
 

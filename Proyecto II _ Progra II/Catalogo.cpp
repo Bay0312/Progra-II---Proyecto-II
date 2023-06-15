@@ -116,6 +116,13 @@ std::string Catalogo::mostrarTodo() {
 	return listProductos->toString();
 }
 
+std::string Catalogo::guardarDatos() {
+	std::stringstream s;
+	s << listClients->guardarDatos();
+	s << listProductos->guardarDatos();
+	return s.str();
+}
+
 void Catalogo::notify() { //Notifica a los clientes que hubo cambios en el catalogo.
 	listClients->notificarObservers();
 }

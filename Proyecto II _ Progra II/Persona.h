@@ -18,15 +18,15 @@ class Persona : public Cliente {
 private:
 	std::string correo;
 	std::string nacionalidad;
-	std::string nombre;
 
 public:
 	Persona(std::string, std::string, std::string, std::string, std::string, std::string, Catalogo* = nullptr);
 	virtual ~Persona();
 	std::string getCorreo();
 	std::string getNacionalidad();
-	std::string getNombre();
+	virtual bool esEmpresa();
 	std::string toString() override;
+	virtual std::string guardarDatos() override;
 	void update() override;
 };
 

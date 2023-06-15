@@ -1,6 +1,7 @@
 #ifndef TIENDA_H
 #define TIENDA_H
 #include "Venta.h"
+#include "VentaEnLinea.h"
 #include "Catalogo.h"
 
 class Tienda {
@@ -21,6 +22,10 @@ public:
 	std::string mostrarVentas();
 	std::string mostrarPDirecciones();
 	double determinaCostoEnvio(int);
+	std::string reporteVentas();
+	std::string reporteMasVendido();
+
+	std::string guardarDatos();
 };
 
 

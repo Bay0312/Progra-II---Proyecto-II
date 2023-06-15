@@ -15,31 +15,32 @@
 
 class Procesador : public Componente {
 private:
-	std::string categoria;
 	std::string tipo;
+	std::string modelo;
 	std::string caracteristicas;
 
 public:
 	//Constructores y Destructor
 	Procesador();
-	Procesador(std::string, std::string, std::string, std::string, double);
+	Procesador(std::string, std::string, std::string, std::string, std::string, double);
 	Procesador(const Procesador&);
 	virtual ~Procesador();
 	
 	//Getters
-	std::string getCategoria() const;
-	std::string getTipo() const;
-	std::string getCaracteristicas() const;
+	virtual std::string getTipo() const;
+	virtual std::string getModelo() const;
+	virtual std::string getCaracteristicas() const;
 
 	//Setters
-	void setCategoria(std::string);
-	void setTipo(std::string);
-	void setCaracteristicas(std::string);
+	virtual void setTipo(std::string);
+	virtual void setModelo(std::string);
+	virtual void setCaracteristicas(std::string);
 
 	//Metodos Varios
 	virtual void agregar(Componente* = nullptr);
 	virtual double obtenerPrecio() const;
 	virtual std::string toString() const;
+	virtual std::string guardarDatos();
 	virtual bool esSistema() const;
 	
 	

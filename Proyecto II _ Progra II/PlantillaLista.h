@@ -41,9 +41,14 @@ public:
 	double getPrecioTotal();
 	bool existeElemento(std::string);
 	T* obtenerElemento(std::string);
-	bool existeCliente(std::string);
-	T* obtenerCliente(std::string);
+	T* obtenerMasRepetido();
+	std::string muestraClientesFisicos();
+	std::string muestraClientesEmpresariales();
+	//bool existeCliente(std::string);
+	//T* obtenerCliente(std::string);
 	std::string toString();
+	std::string guardarDatos();
+	std::string guardarIdentificadores();
 	bool eliminarElemento(std::string);
 };
 
@@ -127,7 +132,7 @@ template<class T>
 bool Lista<T>::existeElemento(std::string cod){
 	actual = primero;
 	while (actual != nullptr) {
-		if (actual->getInfo()->getCodigo() == cod) {
+		if (actual->getInfo()->getId() == cod) {
 			return true;
 		}
 		actual = actual->getSig();
@@ -139,7 +144,7 @@ template<class T>
 T* Lista<T>::obtenerElemento(std::string cod){
 	actual = primero;
 	while (actual != nullptr) {
-		if (actual->getInfo()->getCodigo() == cod) {
+		if (actual->getInfo()->getId() == cod) {
 				return actual->getInfo();
 		}
 		actual = actual->getSig();
@@ -148,28 +153,94 @@ T* Lista<T>::obtenerElemento(std::string cod){
 }
 
 template<class T>
-bool Lista<T>::existeCliente(std::string cod){
+T* Lista<T>::obtenerMasRepetido() {
 	actual = primero;
-	while (actual != nullptr) {
-		if (actual->getInfo()->getId() == cod) {
-			return true;
+	T* masRepetido = nullptr;
+	int cantMasRepetido = 0;
+
+	while (actual != nullptr) { //Recorre la lista
+		int cantActual = 0; //Cuenta cuantas veces se repite el elemento actual
+		Nodo<T>* actual2 = primero; //Recorre la lista para comparar con el elemento actual
+
+		while (actual2 != nullptr) { //Recorre la lista
+			if (actual->getInfo()->getId() == actual2->getInfo()->getId()) { //Si el elemento actual es igual al elemento actual2 entonces 
+				cantActual++; //aumenta el contador
+			}
+			actual2 = actual2->getSig();
+		}
+		if (cantActual > cantMasRepetido) { //Si la cantidad actual es mayor a la cantidad mas repetida entonces
+			cantMasRepetido = cantActual; // actualiza la cantidad mas repetida
+			masRepetido = actual->getInfo(); //y el elemento mas repetido 
 		}
 		actual = actual->getSig();
 	}
-	return false;
+	return masRepetido;
 }
 
 template<class T>
-T* Lista<T>::obtenerCliente(std::string cod){
+std::string Lista<T>::muestraClientesFisicos() {
+	std::stringstream s;
+	bool hayClientes = false;
 	actual = primero;
 	while (actual != nullptr) {
-		if (actual->getInfo()->getId() == cod) {
-			return actual->getInfo();
+		if (!(actual->getInfo()->esEmpresa())) {
+			s << actual->getInfo()->toString() << "\n";
+			if(!hayClientes) hayClientes = true;
 		}
 		actual = actual->getSig();
 	}
-	return nullptr;
+	if (!hayClientes) {
+		return "No hay clientes fisicos registrados";
+	}
+	else {
+		return s.str();
+	}
+	
 }
+
+template<class T>
+std::string Lista<T>::muestraClientesEmpresariales() {
+	std::stringstream s;
+	bool hayClientes = false;
+	actual = primero;
+	while (actual != nullptr) {
+		if (actual->getInfo()->esEmpresa()) {
+			s << actual->getInfo()->toString() << "\n";
+			if (!hayClientes) hayClientes = true;
+		}
+		actual = actual->getSig();
+	}
+	if (!hayClientes) {
+		return "No hay clientes empresariales registrados";
+	}
+	else {
+		return s.str();
+	}
+}
+
+//template<class T>
+//bool Lista<T>::existeCliente(std::string cod){
+//	actual = primero;
+//	while (actual != nullptr) {
+//		if (actual->getInfo()->getId() == cod) {
+//			return true;
+//		}
+//		actual = actual->getSig();
+//	}
+//	return false;
+//}
+
+//template<class T>
+//T* Lista<T>::obtenerCliente(std::string cod){
+//	actual = primero;
+//	while (actual != nullptr) {
+//		if (actual->getInfo()->getId() == cod) {
+//			return actual->getInfo();
+//		}
+//		actual = actual->getSig();
+//	}
+//	return nullptr;
+//}
 
 template<class T>
 std::string Lista<T>::toString() {
@@ -183,9 +254,32 @@ std::string Lista<T>::toString() {
 }
 
 template<class T>
+std::string Lista<T>::guardarDatos() { //Activa los metodos guardarDatos() de los objetos para guardar los datos de cada uno en un archivo .txt
+	std::stringstream s;
+	actual = primero;
+	while (actual != nullptr) {
+		s << actual->getInfo()->guardarDatos();
+		actual = actual->getSig();
+	}
+	return s.str();
+}
+
+template<class T>
+std::string Lista<T>::guardarIdentificadores() {
+	std::stringstream s;
+	actual = primero;
+	while (actual != nullptr) {
+		s << actual->getInfo()->getId() << DELIMITA_CAMPO;
+		actual = actual->getSig();
+	}
+	return s.str();
+}
+
+
+template<class T>
 bool Lista<T>::eliminarElemento(std::string cod) {
 	actual = primero;
-	if (primero->getInfo()->getCodigo() == cod) {
+	if (primero->getInfo()->getId() == cod) {
 		primero = primero->getSig();
 		delete actual;
 		can--;
@@ -193,7 +287,7 @@ bool Lista<T>::eliminarElemento(std::string cod) {
 	}
 	else {
 		while (actual->getSig() != nullptr) {
-			if (actual->getSig()->getInfo()->getCodigo() == cod) {
+			if (actual->getSig()->getInfo()->getId() == cod) {
 				Nodo<T>* temp = actual->getSig();
 				actual->setSig(temp->getSig());
 				delete temp;

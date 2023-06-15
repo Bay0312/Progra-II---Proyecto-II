@@ -15,14 +15,12 @@
 // Actualizado
 
 class Empresa : public Cliente {
-private:
-	std::string nomEmpresa;
-
 public:
 	Empresa(std::string, std::string, std::string, std::string, Catalogo* = nullptr);
 	virtual ~Empresa();
-	std::string getNomEmpresa();
+	virtual bool esEmpresa();
 	std::string toString() override;
+	virtual std::string guardarDatos() override;
 	void update() override;
 };
 

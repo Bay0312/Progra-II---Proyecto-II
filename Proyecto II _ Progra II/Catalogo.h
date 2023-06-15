@@ -41,6 +41,7 @@ public:
 	std::string mostrarProcesadores();
 	std::string mostrarParlantes();
 	std::string mostrarTodo();
+	std::string guardarDatos();
 	void notify();
 
 };

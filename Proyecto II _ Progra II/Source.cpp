@@ -22,11 +22,12 @@
 
 int main() {
 	setlocale(LC_CTYPE, "Spanish"); //Define el español como lenguaje del programa, permitiendo imprimir letras tildadas, "ñ", "¿" y demás
+
+
+	Menu* menu = new Menu(); 
+
+	menu->menuPrincipal(); 
 	
-	Menu* menu = new Menu();
-
-	menu->menuPrincipal();
-
 	delete menu;
 	
 

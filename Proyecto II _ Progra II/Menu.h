@@ -22,6 +22,7 @@
 #include "Fuente.h"
 #include "Procesador.h"
 #include "Parlante.h"
+#include "Excepciones.h"
 
 class Menu {
 private:
@@ -43,7 +44,7 @@ public:
 	void compraComponente();
 	void confirmaCarrito(std::string); 
 	void registroCliente(int);
-	//void actualizarItem();
+	void actualizarItem(); 
 
 	//Agregacion y Eliminacion de Componentes y Sistemas
 	void ingresarComponente();
@@ -54,7 +55,7 @@ public:
 	void cargarDatos();
 
 	//Metodos de Excepciones
-	void buscaExcepcion();
+	void existenciaExcepcion(std::string, bool = true);
 
 
 

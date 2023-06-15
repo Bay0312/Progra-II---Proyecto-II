@@ -15,6 +15,7 @@
 VentaEnLinea::VentaEnLinea(Fecha* fec, Cliente* cli, Lista<Componente>* _ven, int direc)
 	: Venta(fec, _ven), direccionEnvio{ direc }, cliente{ cli } {
 	costoEnvio = this->determinaCostoEnvio(direc);
+	precio = listaDeVendido->getPrecioTotal();
 }
 VentaEnLinea::~VentaEnLinea() {}
 
@@ -57,7 +58,33 @@ std::string VentaEnLinea::toString() {
 	return s.str();
 }
 
+std::string VentaEnLinea::guardarDatos() {
+	std::stringstream s;
+	s << fechaDeVenta->guardarDatos();
+	s << cliente->guardarDatos() << DELIMITA_CAMPO;
+	s << direccionEnvio << DELIMITA_CAMPO;
+	s << precio << DELIMITA_CAMPO;
+	return s.str();
+}
+
 bool VentaEnLinea::esVentaDirecta() { return false; }
+
+std::string VentaEnLinea::mostrarPDirecciones() {
+	std::stringstream s;
+	s << "----------DIRECCIONES DE ENVIO----------\n"
+		<< "Código\tPaís\tCiudad\tCosto Traslado"
+		<< "010\tArgentina\tBuenos Aires\t$175.00\n"
+		<< "020\tBrasil\tBrasilia\t$150.00\n"
+		<< "030\tCanada\tOntario\t$160.00\n"
+		<< "031\tEEUU\tCalifornia\t$150.00\n"
+		<< "032\tEEUU\tNew York\t$100.00\n"
+		<< "040\tFrancia\tParis\t$200.00\n"
+		<< "050\tInglaterra\tLondres\t$200.00\n"
+		<< "060\tItalia\tMilan\t$250.00\n"
+		<< "090\tCosta Rica(local)\tGAM\t$50.00\n"
+		<< "091\tCosta Rica(local)\tFuera de la GAM\t$80.00\n";
+	return s.str();
+}
 
 double VentaEnLinea::determinaCostoEnvio(int cod) {
 	switch (cod) { //Se devuelve un costo en dolares

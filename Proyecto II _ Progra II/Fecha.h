@@ -13,6 +13,7 @@
 #define FECHA_H
 #include <sstream>
 #include <Windows.h>
+#include "Componente.h"
 
 class Fecha {
 private:
@@ -32,6 +33,7 @@ public:
 	void setAnnio(int);
 	void actualizarPorActual();
 	std::string toString();
+	std::string guardarDatos();
 
 };
 

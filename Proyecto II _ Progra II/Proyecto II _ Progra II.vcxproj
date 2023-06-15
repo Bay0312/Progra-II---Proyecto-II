@@ -131,6 +131,7 @@
     <ClInclude Include="Cliente.h" />
     <ClInclude Include="Componente.h" />
     <ClInclude Include="Empresa.h" />
+    <ClInclude Include="Excepciones.h" />
     <ClInclude Include="Fecha.h" />
     <ClInclude Include="Fuente.h" />
     <ClInclude Include="Iterador.h" />
@@ -150,6 +151,7 @@
   <ItemGroup>
     <ClCompile Include="Catalogo.cpp" />
     <ClCompile Include="Empresa.cpp" />
+    <ClCompile Include="Excepciones.cpp" />
     <ClCompile Include="Fecha.cpp" />
     <ClCompile Include="Fuente.cpp" />
     <ClCompile Include="Menu.cpp" />

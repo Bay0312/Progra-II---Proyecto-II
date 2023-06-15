@@ -36,6 +36,7 @@ public:
 
 	//Metodos Varios
 	virtual std::string toString() = 0;
+	virtual std::string guardarDatos() = 0;
 	virtual bool esVentaDirecta() = 0;
 
 

@@ -30,20 +30,30 @@ std::string Persona::getNacionalidad() {
 	return nacionalidad;
 }
 
-std::string Persona::getNombre() {
-	return nombre;
-}
+bool Persona::esEmpresa() { return false; }
 
 std::string Persona::toString() {
 	std::stringstream s;
-	s << "-------Datos del cliente-------" << std::endl;
+	s << "-------------Datos del cliente-------------" << std::endl;
+	s << "-------------------------------------------" << std::endl;
 	s << "Cedula: " << id << std::endl;
 	s << "Nombre: " << nombre << std::endl;
 	s << "Nacionalidad: " << nacionalidad << std::endl;
 	s << "Pais de residencia: " << nomPais << std::endl;
-	s << "Ciudad de envio: " << ciudad << std::endl;
+	s << "Ciudad de residencia: " << ciudad << std::endl;
 	s << "Correo electronico: " << correo << std::endl;
-	s << "-------------------------------" << std::endl;
+	s << "-------------------------------------------" << std::endl;
+	return s.str();
+}
+
+std::string Persona::guardarDatos() {
+	std::stringstream s;
+	s << id << DELIMITA_CAMPO; //DELIMITA_CAMPO sirve como separador entre cada dato.
+	s << nombre << DELIMITA_CAMPO;
+	s << nacionalidad << DELIMITA_CAMPO;
+	s << nomPais << DELIMITA_CAMPO;
+	s << ciudad << DELIMITA_CAMPO;
+	s << correo << DELIMITA_REGISTRO; //DELIMITA_REGISTRO sirve como separador entre cada registro.
 	return s.str();
 }
 

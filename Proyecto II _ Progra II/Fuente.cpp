@@ -12,9 +12,11 @@
 #include "Fuente.h"
 
 //Constructores y Destructor
-Fuente::Fuente() : Componente(), categoria{ "" }, tipo{ "" }, caracteristicas{ "" } {}
+Fuente::Fuente() : Componente(), tipo{ "" }, caracteristicas{ "" } {}
 
-Fuente::Fuente(std::string cat, std::string tip, std::string car, std::string cod, double pre) : categoria{ cat }, tipo{ tip }, caracteristicas{ car } {
+Fuente::Fuente(std::string cat, std::string tip, std::string _model, std::string car, std::string cod, double pre) 
+	: tipo{ tip }, modelo{ _model }, caracteristicas{ car } {
+	categoria = cat;
 	codigo = cod;
 	precio = pre;
 }
@@ -30,13 +32,13 @@ Fuente::Fuente(const Fuente& copFuente) {
 Fuente::~Fuente() {}
 
 //Getters
-std::string Fuente::getCategoria() const { return categoria; }
 std::string Fuente::getTipo() const { return tipo; }
+std::string Fuente::getModelo() const { return modelo; }
 std::string Fuente::getCaracteristicas() const { return caracteristicas; }
 
 //Setters
-void Fuente::setCategoria(std::string categoria) { this->categoria = categoria; }
 void Fuente::setTipo(std::string componente) { this->tipo = componente; }
+void Fuente::setModelo(std::string modelo) { this->modelo = modelo; }
 void Fuente::setCaracteristicas(std::string caracteristicas) { this->caracteristicas = caracteristicas; }
 
 //Metodos Varios
@@ -45,7 +47,17 @@ double Fuente::obtenerPrecio() const { return precio; } //Se retorna solo el pre
 
 std::string Fuente::toString() const {
 	std::stringstream s;
-	s << categoria << '\t' << tipo << '\t' << codigo << '\t' << caracteristicas << '\t' << precio;
+	s << categoria << "\t\t" << tipo << "\t\t" << codigo << "\t\t" << caracteristicas << "\t\t" << precio;
+	return s.str();
+}
+
+std::string Fuente::guardarDatos() {
+	std::stringstream s;
+	s << categoria << DELIMITA_CAMPO; //DELIMITA_CAMPO sirve como separador entre cada dato.
+	s << tipo << DELIMITA_CAMPO;
+	s << codigo << DELIMITA_CAMPO;
+	s << caracteristicas << DELIMITA_CAMPO;
+	s << precio << DELIMITA_REGISTRO; //DELIMITA_REGISTRO sirve como separador entre cada registro.
 	return s.str();
 }
 

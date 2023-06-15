@@ -43,46 +43,31 @@ std::string Tienda::mostrarVentas() {
 }
 
 std::string Tienda::mostrarPDirecciones() {
-	std::stringstream s;
-	s << "----------DIRECCIONES DE ENVIO----------\n"
-		<< "Código\tPaís\tCiudad\tCosto Traslado"
-		<< "010\tArgentina\tBuenos Aires\t$175.00\n"
-		<< "020\tBrasil\tBrasilia\t$150.00\n"
-		<< "030\tCanada\tOntario\t$160.00\n"
-		<< "031\tEEUU\tCalifornia\t$150.00\n"
-		<< "032\tEEUU\tNew York\t$100.00\n"
-		<< "040\tFrancia\tParis\t$200.00\n"
-		<< "050\tInglaterra\tLondres\t$200.00\n"
-		<< "060\tItalia\tMilan\t$250.00\n"
-		<< "090\tCosta Rica(local)\tGAM\t$50.00\n"
-		<< "091\tCosta Rica(local)\tFuera de la GAM\t$80.00\n";
-	return s.str();
+	return VentaEnLinea::mostrarPDirecciones();
 }
 
 double Tienda::determinaCostoEnvio(int cod) {
-	switch (cod) { //Se devuelve un costo en dolares
-	case 10: return 175.00; //Argentina //Buenos Aires
-		break;
-	case 20: return 150.00; //Brasil //Brasilia
-		break;
-	case 30: return 160.00; //Canada //Ontario
-		break;
-	case 31: return 150.00; //EEUU //California
-		break;
-	case 32: return 100.00; //EEUU //New York
-		break;
-	case 40: return 200.00; //Francia //Paris
-		break;
-	case 50: return 200.00; //Inglaterra //Londres
-		break;
-	case 60: return 250.00; //Italia //Milan
-		break;
-	case 90: return 50.00; //Costa Rica(local) //GAM(Gran Area Metropolitana)
-		break;
-	case 91: return 80.00; //Costa Rica(local) //Fuera de la GAM
-		break;
-	default: return 0.00;
-		break;
-	}
-	return 0.00;
+	return VentaEnLinea::determinaCostoEnvio(cod);
+}
+
+std::string Tienda::reporteVentas() {
+	std::stringstream s;
+	s << "------------------REPORTE DE VENTAS------------------\n";
+	listaVentas->toString();
+
+	return s.str();
+}
+
+std::string Tienda::reporteMasVendido() {
+	std::stringstream s;
+	s << "------------------REPORTE DE MAS VENDIDO------------------\n";
+	//Venta* masVendido = listaVentas->getMasRepetido();
+	return s.str();
+}
+
+std::string Tienda::guardarDatos(){
+	std::stringstream s;
+	s << catalogo->guardarDatos() << DELIMITA_REGISTRO;
+	s << listaVentas->guardarDatos() << DELIMITA_REGISTRO;
+	return s.str();
 }

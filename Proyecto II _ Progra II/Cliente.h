@@ -21,6 +21,7 @@ class Catalogo; //Declaracion previa
 class Cliente {  // Observer
 protected:
 	std::string id; //Ya sea cedula juridica o no.
+	std::string nombre;
 	std::string nomPais;
 	std::string ciudad;
 	Catalogo* catalogo;
@@ -33,7 +34,9 @@ public:
 	std::string getId() { return id; }
 	std::string getNomPais() { return nomPais; }
 	std::string getCiudad() { return ciudad; }
+	virtual bool esEmpresa() = 0;
 	virtual std::string toString() = 0;
+	virtual std::string guardarDatos() = 0;
 	virtual void update() = 0;
 };
 

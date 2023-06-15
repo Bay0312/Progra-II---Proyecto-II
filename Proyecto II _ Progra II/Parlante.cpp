@@ -12,9 +12,11 @@
 #include "Parlante.h"
 
 //Constructores y Destructor
-Parlante::Parlante() : Componente(), categoria{ "" }, tipo{ "" }, caracteristicas{ "" } {}
+Parlante::Parlante() : Componente(), tipo{ "" }, caracteristicas{ "" } {}
 
-Parlante::Parlante(std::string cat, std::string tip, std::string car, std::string cod, double pre) : categoria{ cat }, tipo{ tip }, caracteristicas{ car } {
+Parlante::Parlante(std::string cat, std::string tip, std::string _model, std::string car, std::string cod, double pre)
+	: tipo{ tip }, modelo{ _model }, caracteristicas{ car } {
+	categoria = cat;
 	codigo = cod;
 	precio = pre;
 }
@@ -30,13 +32,13 @@ Parlante::Parlante(const Parlante& copParlante) {
 Parlante::~Parlante() {}
 
 //Getters
-std::string Parlante::getCategoria() const { return categoria; }
 std::string Parlante::getTipo() const { return tipo; }
+std::string Parlante::getModelo() const { return modelo; }
 std::string Parlante::getCaracteristicas() const { return caracteristicas; }
 
 //Setters
-void Parlante::setCategoria(std::string categoria) { this->categoria = categoria; }
 void Parlante::setTipo(std::string componente) { this->tipo = componente; }
+void Parlante::setModelo(std::string modelo) { this->modelo = modelo; }
 void Parlante::setCaracteristicas(std::string caracteristicas) { this->caracteristicas = caracteristicas; }
 
 //Metodos Varios
@@ -45,7 +47,17 @@ double Parlante::obtenerPrecio() const { return precio; } //Se retorna solo el p
 
 std::string Parlante::toString() const {
 	std::stringstream s;
-	s << categoria << '\t' << tipo << '\t' << codigo << '\t' << caracteristicas << '\t' << precio;
+	s << categoria << "\t\t" << tipo << "\t\t" << codigo << "\t\t" << caracteristicas << "\t\t" << precio;
+	return s.str();
+}
+
+std::string Parlante::guardarDatos(){
+	std::stringstream s;
+	s << categoria << DELIMITA_CAMPO; //DELIMITA_CAMPO sirve como separador entre cada dato.
+	s << tipo << DELIMITA_CAMPO;
+	s << codigo << DELIMITA_CAMPO;
+	s << caracteristicas << DELIMITA_CAMPO;
+	s << precio << DELIMITA_REGISTRO; //DELIMITA_REGISTRO sirve como separador entre cada registro.
 	return s.str();
 }
 

@@ -15,31 +15,32 @@
 
 class Fuente: public Componente {
 private:
-	std::string categoria;
 	std::string tipo; //Componente
+	std::string modelo;
 	std::string caracteristicas;
 
 public:
 	//Constructores y Destructor
 	Fuente();
-	Fuente(std::string, std::string, std::string, std::string, double);
+	Fuente(std::string, std::string, std::string, std::string, std::string, double);
 	Fuente(const Fuente&);
 	virtual ~Fuente();
 
 	//Getters
-	std::string getCategoria() const;
-	std::string getTipo() const;
-	std::string getCaracteristicas() const;
+	virtual std::string getTipo() const;
+	virtual std::string getModelo() const;
+	virtual std::string getCaracteristicas() const;
 
 	//Setters
-	void setCategoria(std::string);
-	void setTipo(std::string);
-	void setCaracteristicas(std::string);
+	virtual void setTipo(std::string);
+	virtual void setModelo(std::string);
+	virtual void setCaracteristicas(std::string);
 
 	//Metodos Varios
 	virtual void agregar(Componente* = nullptr);
 	virtual double obtenerPrecio() const;
 	virtual std::string toString() const;
+	virtual std::string guardarDatos();
 	virtual bool esSistema() const;
 	
 };

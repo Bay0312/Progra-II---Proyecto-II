@@ -34,7 +34,16 @@ public:
 	virtual void agregar(Componente*);
 	virtual double obtenerPrecio() const;
 	virtual std::string toString() const;
+	virtual std::string guardarDatos();
 	virtual bool esSistema() const;
+
+	virtual std::string getTipo() const;
+	virtual std::string getModelo() const;
+	virtual std::string getCaracteristicas() const;
+
+	virtual void setTipo(std::string);
+	virtual void setModelo(std::string);
+	virtual void setCaracteristicas(std::string);
 	
 };
 

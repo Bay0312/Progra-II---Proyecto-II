@@ -44,3 +44,11 @@ std::string Fecha::toString() {
 	s << dia << "/" << mes << "/" << annio;
 	return s.str();
 }
+
+std::string Fecha::guardarDatos() {
+	std::stringstream s;
+	s << dia << DELIMITA_CAMPO;
+	s << mes <<DELIMITA_CAMPO;
+	s << annio <<DELIMITA_REGISTRO;
+	return s.str();
+}

@@ -12,6 +12,7 @@
 #include "VentaDirecta.h"
 
 VentaDirecta::VentaDirecta(Fecha* fec, Lista<Componente>* _ven, std::string _factNom) : Venta(fec, _ven), facturaNombre{ _factNom } {
+	precio = listaDeVendido->getPrecioTotal();
 }
 VentaDirecta::~VentaDirecta() {}
 
@@ -31,6 +32,15 @@ std::string VentaDirecta::toString() {
 		<< facturaNombre << '\n'
 		<< "Articulos vendidos: \n" << listaDeVendido->toString() << '\n'
 		<< "Precio Final: " << precio << " colones.";
+	return s.str();
+}
+
+std::string VentaDirecta::guardarDatos() {
+	std::stringstream s;
+	s << fechaDeVenta->guardarDatos(); //No se agrega el DELIMITADOR_REGISTRO porque se agrega en el metodo guardarDatos de fecha.
+	s << facturaNombre << DELIMITA_CAMPO;
+	s << precio << DELIMITA_CAMPO;
+	s << listaDeVendido->guardarIdentificadores(); //Se guardan identificadores de los componentes vendidos, así solo basta con buscarlos entre los guardados.
 	return s.str();
 }
 

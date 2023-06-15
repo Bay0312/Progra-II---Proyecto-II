@@ -16,6 +16,7 @@
 class VentaDirecta: public Venta {
 private:
 	std::string facturaNombre; //El nombre de la persona al que debe estar la factura
+
 public:
 	//Constructor y Destructor
 	VentaDirecta(Fecha*, Lista<Componente>*, std::string);
@@ -27,8 +28,10 @@ public:
 
 	//Setter
 	void setFacturaNombre(std::string);
+	
 	//Metodos Varios
 	virtual std::string toString();
+	virtual std::string guardarDatos();
 	virtual bool esVentaDirecta();
 
 };
