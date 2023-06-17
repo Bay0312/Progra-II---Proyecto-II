@@ -13,7 +13,9 @@
 
 //Constructor y Destructor
 Sistema::Sistema() : Componente() {
+	codigo = "SIS";
 	categoria = "Sistema";
+	precio = 0;
 	lista = new Lista<Componente>();
 }
 
@@ -56,6 +58,7 @@ Lista<Componente>* Sistema::getLista() const { return lista; }
 //Metodos Varios
 void Sistema::agregar(Componente* c) { 
 	lista->insertarFinal(c);
+	precio = obtenerPrecio();
 }
 
 double Sistema::obtenerPrecio() const {
@@ -64,18 +67,28 @@ double Sistema::obtenerPrecio() const {
 
 std::string Sistema::toString() const {
 	std::stringstream s;
-	s << "---------------SISTEMA DE AUDIO CODIGO <" << codigo << ">---------------\n"
+	s << "--------------------SISTEMA DE AUDIO CODIGO <" << codigo << ">--------------------\n"
 		<< "**INCLUYE**\n"
-		<< "CATEGORIA\t\tTIPO\t\tCODIGO\t\tCARACTERISTICAS\t\tPRECIO\n"
+		<< "--------------------------------------------------------\n"
+		<< "CATEGORIA\t\tTIPO\t\tCODIGO\t\tPRECIO($)\t\tCARACTERISTICAS\n"
+		<< "--------------------------------------------------------\n"
 		<< lista->toString() << '\n'
-		<< "Precio Total del Sistema: " << obtenerPrecio() << '\n'
-		<< "----------------------------------------------\n";
+		<< "Precio Total del Sistema: " << obtenerPrecio() << " dolares\n"
+		<< "--------------------------------------------------------\n";
 	return s.str();
 }
 
 std::string Sistema::guardarDatos() {
 	std::stringstream s;
-	s << lista->guardarDatos() << DELIMITA_REGISTRO;
+	s << codigo << DELIMITA_CAMPO;
+	IteradorLista<Componente>* iterador = lista->getIterador();
+	while (iterador->getActual() != nullptr) {
+		//No se agrega el delimitador de registro hasta el final, puesto que se necesita que todo esté en una sola línea. Los productos se pueden
+		//modificar, por lo que se debe guardar todo, y no solo el código para traerlo. Esto evita que se modifiquen datos de una venta hecha
+		//antes de modificar un producto en especifico.
+		s << iterador->getActual()->getInfo()->guardarDatos(); 
+		iterador->operator++();
+	}
 	return s.str();
 }
 

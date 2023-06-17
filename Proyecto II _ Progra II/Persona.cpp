@@ -53,7 +53,7 @@ std::string Persona::guardarDatos() {
 	s << nacionalidad << DELIMITA_CAMPO;
 	s << nomPais << DELIMITA_CAMPO;
 	s << ciudad << DELIMITA_CAMPO;
-	s << correo << DELIMITA_REGISTRO; //DELIMITA_REGISTRO sirve como separador entre cada registro.
+	s << correo << DELIMITA_CAMPO;
 	return s.str();
 }
 

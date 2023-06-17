@@ -27,6 +27,7 @@ Procesador::Procesador(const Procesador& copProcesador) {
 	this->caracteristicas = copProcesador.caracteristicas;
 	this->codigo = copProcesador.codigo;
 	this->precio = copProcesador.precio;
+	this->modelo = copProcesador.modelo;
 }
 
 Procesador::~Procesador() {}
@@ -47,17 +48,19 @@ double Procesador::obtenerPrecio() const { return precio; } //Se retorna solo el
 
 std::string Procesador::toString() const {
 	std::stringstream s;
-	s << categoria << "\t\t" << tipo << "\t\t" << codigo << "\t\t" << caracteristicas << "\t\t" << precio;
+	s << categoria << "\t\t" << tipo << "\t\t" << codigo << "\t\t" << precio << "\t\t" << caracteristicas;
 	return s.str();
 }
 
 std::string Procesador::guardarDatos() {
 	std::stringstream s;
+	s << 'P' << DELIMITA_CAMPO; 
 	s << categoria << DELIMITA_CAMPO; //DELIMITA_CAMPO sirve como separador entre cada dato.
 	s << tipo << DELIMITA_CAMPO;
+	s << modelo << DELIMITA_CAMPO;
 	s << codigo << DELIMITA_CAMPO;
 	s << caracteristicas << DELIMITA_CAMPO;
-	s << precio << DELIMITA_REGISTRO; //DELIMITA_REGISTRO sirve como separador entre cada registro.
+	s << precio << DELIMITA_CAMPO;
 	return s.str();
 }
 

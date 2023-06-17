@@ -27,6 +27,7 @@ Fuente::Fuente(const Fuente& copFuente) {
 	this->caracteristicas = copFuente.caracteristicas;
 	this->codigo = copFuente.codigo;
 	this->precio = copFuente.precio;
+	this->modelo = copFuente.modelo;
 }
 
 Fuente::~Fuente() {}
@@ -47,17 +48,19 @@ double Fuente::obtenerPrecio() const { return precio; } //Se retorna solo el pre
 
 std::string Fuente::toString() const {
 	std::stringstream s;
-	s << categoria << "\t\t" << tipo << "\t\t" << codigo << "\t\t" << caracteristicas << "\t\t" << precio;
+	s << categoria << "\t\t" << tipo << "\t\t" << codigo << "\t\t" << precio << "\t\t" << caracteristicas;
 	return s.str();
 }
 
 std::string Fuente::guardarDatos() {
 	std::stringstream s;
+	s << 'F' << DELIMITA_CAMPO;
 	s << categoria << DELIMITA_CAMPO; //DELIMITA_CAMPO sirve como separador entre cada dato.
 	s << tipo << DELIMITA_CAMPO;
+	s << modelo << DELIMITA_CAMPO;
 	s << codigo << DELIMITA_CAMPO;
 	s << caracteristicas << DELIMITA_CAMPO;
-	s << precio << DELIMITA_REGISTRO; //DELIMITA_REGISTRO sirve como separador entre cada registro.
+	s << precio << DELIMITA_CAMPO;
 	return s.str();
 }
 

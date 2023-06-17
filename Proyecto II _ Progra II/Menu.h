@@ -40,10 +40,11 @@ public:
 
 	//Metodos de Ayuda
 	void compraSistema();
-	void personalizarSistema(bool);
+	void personalizarSistema(bool); //Ingresa los componentes al carrito o al catalogo.
 	void compraComponente();
 	void confirmaCarrito(std::string); 
 	void registroCliente(int);
+
 	void actualizarItem(); 
 
 	//Agregacion y Eliminacion de Componentes y Sistemas

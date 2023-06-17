@@ -27,17 +27,18 @@ void VentaDirecta::setFacturaNombre(std::string _factNom) { facturaNombre = _fac
 std::string VentaDirecta::toString() {
 	std::stringstream s;
 	s << "----------VENTA DIRECTA----------\n"
-		<< "Fecha de Venta: " << fechaDeVenta->toString()
+		<< "Fecha de Venta: " << fechaDeVenta->toString() << '\n'
 		<< "Cliente: \n"
 		<< facturaNombre << '\n'
 		<< "Articulos vendidos: \n" << listaDeVendido->toString() << '\n'
-		<< "Precio Final: " << precio << " colones.";
+		<< "Precio Final: " << precio << " dolares.";
 	return s.str();
 }
 
 std::string VentaDirecta::guardarDatos() {
 	std::stringstream s;
-	s << fechaDeVenta->guardarDatos(); //No se agrega el DELIMITADOR_REGISTRO porque se agrega en el metodo guardarDatos de fecha.
+	s << "Directa" << DELIMITA_CAMPO;
+	s << fechaDeVenta->guardarDatos();
 	s << facturaNombre << DELIMITA_CAMPO;
 	s << precio << DELIMITA_CAMPO;
 	s << listaDeVendido->guardarIdentificadores(); //Se guardan identificadores de los componentes vendidos, así solo basta con buscarlos entre los guardados.

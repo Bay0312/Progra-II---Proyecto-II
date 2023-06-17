@@ -48,22 +48,25 @@ void VentaEnLinea::setDireccionEnvio(int direc) {
 std::string VentaEnLinea::toString() {
 	std::stringstream s;
 	s << "----------VENTA EN LINEA----------\n"
-		<< "Fecha de Venta: " << fechaDeVenta->toString()
+		<< "Fecha de Venta: " << fechaDeVenta->toString() << '\n'
 		<< "Cliente: \n"
 		<< cliente->toString() << '\n'
 		<< "Articulos vendidos: \n"
+		<< listaDeVendido->toString() << '\n'
 		<< "Direccion de envio: " << direccionEnvio << '\n'
-		<< "Costo de envio: " << determinaCostoEnvio(direccionEnvio) << " colones.\n"
-		<< "Precio Final: " << precio << " colones.";
+		<< "Costo de envio: " << determinaCostoEnvio(direccionEnvio) << " dolares.\n"
+		<< "Precio Final: " << precio << " dolares.";
 	return s.str();
 }
 
 std::string VentaEnLinea::guardarDatos() {
 	std::stringstream s;
+	s << "Linea" << DELIMITA_CAMPO;
 	s << fechaDeVenta->guardarDatos();
-	s << cliente->guardarDatos() << DELIMITA_CAMPO;
+	s << cliente->getId() << DELIMITA_CAMPO;
 	s << direccionEnvio << DELIMITA_CAMPO;
 	s << precio << DELIMITA_CAMPO;
+	s << listaDeVendido->guardarIdentificadores();
 	return s.str();
 }
 

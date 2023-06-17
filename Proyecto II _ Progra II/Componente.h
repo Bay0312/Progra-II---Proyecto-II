@@ -22,7 +22,7 @@ protected:
 	double precio;
 
 public:
-	Componente() : codigo{ "" }, categoria{ "" }, precio{0.0} {}
+	Componente() : codigo{ "" }, categoria{ "" }, precio{ 0.0 } {}
 	virtual ~Componente(){}
 	virtual std::string getId() const { return codigo; } //Se le llama de esta forma para que sea mas generico.
 	virtual void setCodigo(std::string _codigo) { codigo = _codigo; }

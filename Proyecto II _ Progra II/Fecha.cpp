@@ -49,6 +49,6 @@ std::string Fecha::guardarDatos() {
 	std::stringstream s;
 	s << dia << DELIMITA_CAMPO;
 	s << mes <<DELIMITA_CAMPO;
-	s << annio <<DELIMITA_REGISTRO;
+	s << annio << DELIMITA_CAMPO;
 	return s.str();
 }

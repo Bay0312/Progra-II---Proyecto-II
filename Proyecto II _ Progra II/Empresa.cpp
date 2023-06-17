@@ -39,7 +39,7 @@ std::string Empresa::guardarDatos() {
 	s << id << DELIMITA_CAMPO; //DELIMITA_CAMPO sirve como separador entre cada dato.
 	s << nombre << DELIMITA_CAMPO;
 	s << nomPais << DELIMITA_CAMPO;
-	s << ciudad << DELIMITA_REGISTRO; //DELIMITA_REGISTRO sirve como separador entre cada registro.
+	s << ciudad << DELIMITA_CAMPO;
 	return s.str();
 }
 

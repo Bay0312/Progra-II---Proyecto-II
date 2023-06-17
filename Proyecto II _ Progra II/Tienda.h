@@ -1,8 +1,10 @@
 #ifndef TIENDA_H
 #define TIENDA_H
-#include "Venta.h"
 #include "VentaEnLinea.h"
+#include "VentaDirecta.h"
 #include "Catalogo.h"
+#include "Persona.h"
+#include "Empresa.h"
 
 class Tienda {
 private:
@@ -24,8 +26,12 @@ public:
 	double determinaCostoEnvio(int);
 	std::string reporteVentas();
 	std::string reporteMasVendido();
+	bool hayCompParaSistema();
+	std::string facturar(Venta*);
 
 	std::string guardarDatos();
+	void cargarDatos(std::string guardar[50], int);
+	void ayudaCargaComponente(std::string guardar[50], bool);
 };
 
 

@@ -40,12 +40,11 @@ public:
 	void notificarObservers();
 	double getPrecioTotal();
 	bool existeElemento(std::string);
+	bool existeTipoElemento(int);
 	T* obtenerElemento(std::string);
-	T* obtenerMasRepetido();
+	int obtenerCuantoRepite(std::string);
 	std::string muestraClientesFisicos();
 	std::string muestraClientesEmpresariales();
-	//bool existeCliente(std::string);
-	//T* obtenerCliente(std::string);
 	std::string toString();
 	std::string guardarDatos();
 	std::string guardarIdentificadores();
@@ -141,6 +140,114 @@ bool Lista<T>::existeElemento(std::string cod){
 }
 
 template<class T>
+bool Lista<T>::existeTipoElemento(int tipo) {
+	actual = primero;
+
+	//El dynamic_cast es la medida más fiable para saber de que tipo es el componente, pues si bien la categoria
+	//no se puede cambiar, es mejor prevenir, así, un error no desencadena otro.
+	switch (tipo) {
+	case 1:  //Saber si hay sistemas en el catalogo
+		while (actual != nullptr) {
+			if (actual->getInfo()->esSistema()) {
+				return true;
+			}
+			actual = actual->getSig();
+		}
+		break;
+
+	case 2: //Saber si hay componentes en el catalogo
+		while (actual != nullptr) {
+			if (!(actual->getInfo()->esSistema())) {
+				return true;
+			}
+			actual = actual->getSig();
+		}
+		break;
+
+	case 3: //Saber si hay fuentes de audio en el catalogo
+		while (actual != nullptr) {
+			if (dynamic_cast<Fuente*>(actual->getInfo()) != nullptr) {
+				return true;
+			}
+			actual = actual->getSig();
+		}
+		break;
+
+	case 4: //Saber si hay procesadores de señal en el catalogo
+		while (actual != nullptr) {
+			if (dynamic_cast<Procesador*>(actual->getInfo()) != nullptr) {
+				return true;
+			}
+			actual = actual->getSig();
+		}
+		break;
+
+	case 5: //Saber si hay parlantes en el catalogo
+		while (actual != nullptr) {
+		if (dynamic_cast<Parlante*>(actual->getInfo()) != nullptr) {
+			return true;
+		}
+		actual = actual->getSig();
+	}
+		break;
+
+	default:
+		break;
+	}
+
+
+	//if (tipo == 1) { //Saber si hay sistemas en el catalogo
+	//	while (actual != nullptr) {
+	//		if (actual->getInfo()->esSistema()) {
+	//			return true;
+	//		}
+	//		actual = actual->getSig();
+	//	}
+	//}
+	//else {
+	//	if (tipo == 2) { //Saber si hay componentes en el catalogo
+	//		while (actual != nullptr) {
+	//			if (!(actual->getInfo()->esSistema())) {
+	//				return true;
+	//			}
+	//			actual = actual->getSig();
+	//		}
+	//	}
+	//	else {
+	//		if (tipo == 3) { //Saber si hay fuentes de audio en el catalogo
+	//			while (actual != nullptr) {
+	//				if (dynamic_cast<Fuente*>(actual->getInfo()) != nullptr) {
+	//					return true;
+	//				}
+	//				actual = actual->getSig();
+	//			}
+	//		}
+	//		else {
+	//			if (tipo == 4) { //Saber si hay procesadores de señal en el catalogo
+	//				while (actual != nullptr) {
+	//					if (dynamic_cast<Procesador*>(actual->getInfo()) != nullptr) {
+	//						return true;
+	//					}
+	//					actual = actual->getSig();
+	//				}
+	//			}
+	//			else {
+	//				if (tipo == 5) { //Saber si hay parlentes en el catalogo
+	//					while (actual != nullptr) {
+	//						if (dynamic_cast<Parlante*>(actual->getInfo()) != nullptr) {
+	//							return true;
+	//						}
+	//						actual = actual->getSig();
+	//					}
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
+	return false; //Si no hay existencias del componente indicado, se devuelve false.
+}
+
+template<class T>
 T* Lista<T>::obtenerElemento(std::string cod){
 	actual = primero;
 	while (actual != nullptr) {
@@ -153,28 +260,17 @@ T* Lista<T>::obtenerElemento(std::string cod){
 }
 
 template<class T>
-T* Lista<T>::obtenerMasRepetido() {
+int Lista<T>::obtenerCuantoRepite(std::string _identif) {
+	int contador = 0;
 	actual = primero;
-	T* masRepetido = nullptr;
-	int cantMasRepetido = 0;
-
-	while (actual != nullptr) { //Recorre la lista
-		int cantActual = 0; //Cuenta cuantas veces se repite el elemento actual
-		Nodo<T>* actual2 = primero; //Recorre la lista para comparar con el elemento actual
-
-		while (actual2 != nullptr) { //Recorre la lista
-			if (actual->getInfo()->getId() == actual2->getInfo()->getId()) { //Si el elemento actual es igual al elemento actual2 entonces 
-				cantActual++; //aumenta el contador
-			}
-			actual2 = actual2->getSig();
-		}
-		if (cantActual > cantMasRepetido) { //Si la cantidad actual es mayor a la cantidad mas repetida entonces
-			cantMasRepetido = cantActual; // actualiza la cantidad mas repetida
-			masRepetido = actual->getInfo(); //y el elemento mas repetido 
+	while (actual != nullptr) {
+		if (actual->getInfo()->getId() == _identif) {
+			contador++;
 		}
 		actual = actual->getSig();
 	}
-	return masRepetido;
+	return contador;
+	
 }
 
 template<class T>
@@ -218,30 +314,6 @@ std::string Lista<T>::muestraClientesEmpresariales() {
 	}
 }
 
-//template<class T>
-//bool Lista<T>::existeCliente(std::string cod){
-//	actual = primero;
-//	while (actual != nullptr) {
-//		if (actual->getInfo()->getId() == cod) {
-//			return true;
-//		}
-//		actual = actual->getSig();
-//	}
-//	return false;
-//}
-
-//template<class T>
-//T* Lista<T>::obtenerCliente(std::string cod){
-//	actual = primero;
-//	while (actual != nullptr) {
-//		if (actual->getInfo()->getId() == cod) {
-//			return actual->getInfo();
-//		}
-//		actual = actual->getSig();
-//	}
-//	return nullptr;
-//}
-
 template<class T>
 std::string Lista<T>::toString() {
 	std::stringstream s;
@@ -258,7 +330,7 @@ std::string Lista<T>::guardarDatos() { //Activa los metodos guardarDatos() de lo
 	std::stringstream s;
 	actual = primero;
 	while (actual != nullptr) {
-		s << actual->getInfo()->guardarDatos();
+		s << actual->getInfo()->guardarDatos() << DELIMITA_REGISTRO; //DELIMITA_REGISTRO sirve como separador entre cada registro.
 		actual = actual->getSig();
 	}
 	return s.str();

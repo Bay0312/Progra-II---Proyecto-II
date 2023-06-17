@@ -22,6 +22,7 @@ Menu::~Menu() {
 
 void Menu::menuPrincipal() {
 	int opcion = 0;
+	Menu::cargarDatos(); 
 
 	do {
 		system("CLS");
@@ -99,10 +100,16 @@ void Menu::ventaDirecta(){
 				break;
 			case 5:
 				system("CLS");
-				if (carrito->getCan() != 0) {
+				if (carrito->getCan() > 0) {
 					std::cout << "Nota: Si no se confirma el carrito, se perdera la informacion.\n¿Desea Continuar? (1. Si || 0. No): ";
 					if (!(std::cin >> decide)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
 					if (decide) {
+						delete carrito; //Si es nullptr
+						carrito = nullptr;
+					}
+					else {
+					//Al entrar a opcion de venta en directa se crea un carrito, por lo que si se sale de la opcion se debe eliminar, en este caso,
+					//se elimina sin preguntar porque la cantidad de productos en el mismo es igual a '0'.
 						delete carrito; //Si es nullptr
 						carrito = nullptr;
 					}
@@ -162,16 +169,19 @@ void Menu::ventaEnLinea(){
 				break;
 
 			case 3:
-				if (carrito != nullptr) {
+				if (carrito->getCan() > 0) {
 					std::cout << "Nota: Si no se confirma el carrito, se perdera la informacion.\n¿Desea Continuar? (1. Si || 0. No): ";
 					if (!(std::cin >> sigue)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
 					if (sigue) {
 						delete carrito; //Si es nullptr
 						carrito = nullptr;
+						sigue = false;
+					}
+					else {
+						sigue = true; //Se cambia a true porque al ingresar '0' en el anterior, se afecta a la variable que mantiene el bucle.
 					}
 				}
-				else { //Si el carrito es null es porque la compra se concretó o bien porque no se ha agregado nada al mismo.
-					system("CLS");
+				else {
 					sigue = false;
 				}
 				break;
@@ -190,7 +200,8 @@ void Menu::ventaEnLinea(){
 }
 
 void Menu::mantenimiento(){
-	int opcion = 0, cual;
+	int opcion = 0, aux;
+
 	do {
 		try {
 			system("CLS");
@@ -201,25 +212,26 @@ void Menu::mantenimiento(){
 				<< "4. Ingresar Sistemas al Catalogo.\n"
 				<< "5. Actualizar Informacion de un Item\n"
 				<< "6. Eliminar un Item del Catalogo\n"
-				<< "7. Volver\n"
+				<< "7. Mostrar Productos del Catalogo.\n"
+				<< "8. Reportes de Ventas\n"
+				<< "9. Volver\n"
 				<< "-----------------------------------\n"
 				<< "Ingrese una opcion: ";
 			if (!(std::cin >> opcion)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
-
+			system("CLS");
 			switch (opcion) {
-				case 1:
+			case 1:
+				std::cout << "¿Desea ver Clientes Fisicos o Empresariales?\n"
+					<< "1. Clientes Fisicos\n"
+					<< "2. Clientes Empresariales\n"
+					<< "-----------------------------------\n"
+					<< "Ingrese una opcion: ";
+				if (!(std::cin >> aux)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
 				system("CLS");
-				std::cout<<"¿Desea ver Clientes Fisicos o Empresariales?\n"
-					<<"1. Clientes Fisicos\n"
-					<<"2. Clientes Empresariales\n"
-					<<"-----------------------------------\n"
-					<<"Ingrese una opcion: ";
-				if (!(std::cin >> cual)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
-				system("CLS");
-				if (cual == 1) {
+				if (aux == 1) {
 					std::cout << tienda->getCatalogo()->getListClients()->muestraClientesFisicos() << "\n";
 				}
-				else if (cual == 2) {
+				else if (aux == 2) {
 					std::cout << tienda->getCatalogo()->getListClients()->muestraClientesEmpresariales() << "\n";
 				}
 				else {
@@ -230,7 +242,6 @@ void Menu::mantenimiento(){
 
 			case 2:
 				int aux;
-				system("CLS");
 				std::cout << "¿Que tipo de cliente va a registrar?\n"
 					<< "1. Cliente Fisico (Persona)\n"
 					<< "2. Cliente Juridico (Empresa)\n"
@@ -259,6 +270,81 @@ void Menu::mantenimiento(){
 				eliminarItem();
 				break;
 			case 7:
+				do {
+					std::cout << "-----¿Qué desea ver?-----\n"
+						<< "1. Todos Los componentes\n"
+						<< "2. Solo las Fuentes de Audio\n"
+						<< "3. Solo los Procesadores de Señal\n"
+						<< "4. Solo los Parlantes\n"
+						<< "5. Solo los Sistemas\n"
+						<< "6. Volver\n"
+						<< "-------------------------------------\n"
+						<< "Ingrese una opcion: ";
+					if (!(std::cin >> aux)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
+					system("CLS");
+					switch (aux) {
+					case 1: std::cout << tienda->getCatalogo()->mostrarSoloComponentes() << '\n';
+						system("PAUSE");
+						break;
+					case 2: std::cout << tienda->getCatalogo()->mostrarFuentes() << '\n';
+						system("PAUSE");
+						break;
+					case 3:std::cout << tienda->getCatalogo()->mostrarProcesadores() << '\n';
+						system("PAUSE");
+						break;
+					case 4: std::cout << tienda->getCatalogo()->mostrarParlantes() << '\n';
+						system("PAUSE");
+						break;
+					case 5: std::cout << tienda->getCatalogo()->mostrarSoloSistemas() << '\n';
+						system("PAUSE");
+						break;
+					case 6:
+						//No se hace nada, solo se requiere para salir del bucle.
+						break;
+					default: std::cout << "Opcion invalida. Intentelo de nuevo.\n";
+						break;
+					}
+					system("CLS");
+				} while (aux != 6);
+				break;
+			case 8:
+				do {
+					system("CLS");
+					std::cout << "-----¿Qué desea ver?-----\n"
+						<< "1. Reporte de Ventas\n"
+						<< "2. Producto Más Vendido\n"
+						<< "3. Volver\n"
+						<< "-------------------------------------\n"
+						<< "Ingrese una opcion: ";
+					if (!(std::cin >> aux)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
+
+					switch (aux) {
+					case 1:
+						std::cout << tienda->reporteVentas() << '\n';
+						system("PAUSE");
+						break;
+
+					case 2:
+						std::cout << tienda->reporteMasVendido();
+						system("PAUSE");
+						break;
+
+					case 3:
+						system("CLS");
+						break;
+
+					default: std::cout << "Opcion invalida. Intentelo de nuevo.\n";
+						system("PAUSE");
+						break;
+					}
+
+				} while (aux != 3);
+				
+
+				
+				
+				break;
+			case 9:
 				system("CLS");
 				break;
 			default:
@@ -273,58 +359,44 @@ void Menu::mantenimiento(){
 			system("PAUSE");
 		}
 		
-	} while (opcion != 7);
+	} while (opcion != 9);
 }
 
 void Menu::compraSistema() {
 	std::string cod;
 	bool sigue = true;
 
-	do {
-		system("CLS");
-		std::cout << tienda->getCatalogo()->mostrarSoloSistemas();
-		std::cout << "Ingrese el codigo del sistema que desea comprar: ";
-		std::cin >> cod;
+	if (tienda->getCatalogo()->getListProductos()->existeTipoElemento(1)) { //El '1' corresponde a sistemas
+		do {
+			system("CLS");
+			std::cout << tienda->getCatalogo()->mostrarSoloSistemas();
+			std::cout << "Ingrese el codigo del sistema que desea comprar: ";
+			std::cin >> cod;
 
-		if (tienda->getCatalogo()->getListProductos()->existeElemento(cod)) {
-			Componente* compPtr = tienda->getCatalogo()->getListProductos()->obtenerElemento(cod);
-			// Se confirma que sea un sistema, para evitar agregaciones de otros componentes en pantallas donde no corresponde.
-			if (compPtr->esSistema()) {
-				int can;
-				try {
-					std::cout << "¿Cuantas unidades desea?: ";
-					if (!(std::cin >> can)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
-					//Se clona el sistema, así, si se llega a eliminar del catalogo, este no se elimina de los datos de la venta.
-					//Haciendo que se repita la clonacion, logramos qué en el carrito se agreguen sistemas diferentes, aunque sean el mismo, así es posible evitar confusiones en caso de revertir una compra.
-					for (int i = 0; i < can; i++) carrito->insertarFinal(new Sistema(*dynamic_cast<Sistema*>(compPtr))); //Se agrega el componente al carrito
-					std::cout << "Se ha agregado al carrito de compras correctamente!\n\n";
-					std::cout << "Desea agregar otro sistema preconfigurado al carrito? (1. Si || 0. No): ";
-					if (!(std::cin >> sigue)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
-				}
-				catch (Excepcion* e) { //Si se ingresó un valor no correspondiente se recibe una excepcion y se muestra el mensaje de error.
-					std::cout << e->toString() << '\n';
-					std::cin.clear(); //Se limpia el buffer de entrada.
-					std::cin.ignore(1000, '\n'); //Se ignora el resto de la linea.
-					system("PAUSE");
-				}
-			}
-			else {
-				try {
-					std::cout << "El código ingresado no corresponde a un sistema preconfigurado.\n¿Desea probar con otro? (1. Si || 0. No): ";
-					if (!(std::cin >> sigue)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
-				}
-				catch (Excepcion* e) { //Si se ingresó un valor no correspondiente se recibe una excepcion y se muestra el mensaje de error.
-					std::cout << e->toString() << '\n';
-					std::cin.clear(); //Se limpia el buffer de entrada.
-					std::cin.ignore(1000, '\n'); //Se ignora el resto de la linea.
-					system("PAUSE");
-				}
-			}
-		}
-		else {
 			try {
-				std::cout << "El código ingresado no existe.\n¿Desea probar con otro? (1. Si || 0. No): ";
-				if (!(std::cin >> sigue)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
+				if (tienda->getCatalogo()->getListProductos()->existeElemento(cod)) {
+					Componente* compPtr = tienda->getCatalogo()->getListProductos()->obtenerElemento(cod);
+					// Se confirma que sea un sistema, para evitar agregaciones de otros componentes en pantallas donde no corresponde.
+					if (compPtr->esSistema()) {
+						int can;
+						std::cout << "¿Cuantas unidades desea?: ";
+						if (!(std::cin >> can)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
+						//Se clona el sistema, así, si se llega a eliminar del catalogo, este no se elimina de los datos de la venta.
+						//Haciendo que se repita la clonacion, logramos qué en el carrito se agreguen sistemas diferentes, aunque sean el mismo, así es posible evitar confusiones en caso de revertir una compra.
+						for (int i = 0; i < can; i++) carrito->insertarFinal(new Sistema(*dynamic_cast<Sistema*>(compPtr))); //Se agrega el componente al carrito
+						std::cout << "Se ha agregado al carrito de compras correctamente!\n\n";
+						std::cout << "Desea agregar otro sistema preconfigurado al carrito? (1. Si || 0. No): ";
+						if (!(std::cin >> sigue)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
+					}
+					else {
+						std::cout << "El código ingresado no corresponde a un sistema preconfigurado.\n¿Desea probar con otro? (1. Si || 0. No): ";
+						if (!(std::cin >> sigue)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
+					}
+				}
+				else {
+					std::cout << "El código ingresado no existe.\n¿Desea probar con otro? (1. Si || 0. No): ";
+					if (!(std::cin >> sigue)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
+				}
 			}
 			catch (Excepcion* e) { //Si se ingresó un valor no correspondiente se recibe una excepcion y se muestra el mensaje de error.
 				std::cout << e->toString() << '\n';
@@ -332,8 +404,13 @@ void Menu::compraSistema() {
 				std::cin.ignore(1000, '\n'); //Se ignora el resto de la linea.
 				system("PAUSE");
 			}
-		}
-	} while (sigue);
+		} while (sigue);
+	}
+	else {
+		system("CLS");
+		std::cout << "No hay ningún sistema en el catálogo.\n";
+		system("PAUSE");
+	}
 }
 
 void Menu::personalizarSistema(bool donde) { //El bool 'donde' indica si se llama desde el menu de compra o desde el menu de mantenimiento.
@@ -342,241 +419,254 @@ void Menu::personalizarSistema(bool donde) { //El bool 'donde' indica si se llam
 	bool comp = true, rep = true;
 	Sistema* personalizado = new Sistema();
 
-	do {
-		switch (cambia) {
-		case 1:
-			do {
-				try {
-					system("CLS");
-					std::cout << "----------PERSONALIZANDO SISTEMA----------\n";
-					std::cout << tienda->getCatalogo()->mostrarFuentes() << '\n';
-					std::cout << "Digite el modelo de la fuente que desea agregar al sistema: ";
-					std::cin >> cod;
+	if (tienda->hayCompParaSistema()) {
+		do {
+			switch (cambia) {
+			case 1:
+				do {
+					try {
+						system("CLS");
+						std::cout << "----------PERSONALIZANDO SISTEMA----------\n";
+						std::cout << tienda->getCatalogo()->mostrarFuentes() << '\n';
+						std::cout << "Digite el modelo de la fuente que desea agregar al sistema: ";
+						std::cin >> cod;
 
-					if (tienda->getCatalogo()->getListProductos()->existeElemento(cod)) {
-						Componente* compPtr = tienda->getCatalogo()->getListProductos()->obtenerElemento(cod);
-						if (compPtr->getCategoria() == "Fuente de Audio") {
-							//if (!compPtr->esSistema() && dynamic_cast<Fuente*>(compPtr) != nullptr) {
-							//Se agrega con dynamic cast, sino lo reconoce como componente, además, se agrega como clonacion usando el constructor copia.
-							personalizado->agregar(new Fuente(*dynamic_cast<Fuente*>(compPtr)));
-							std::cout << "Se ha agregado la fuente de audio al sistema personalizado!\n\n";
-							comp = false; //Para salir del bucle
-							cambia++; //Se cambia a la siguiente etapa de personalizacion
-							system("PAUSE");
+						if (tienda->getCatalogo()->getListProductos()->existeElemento(cod)) {
+							Componente* compPtr = tienda->getCatalogo()->getListProductos()->obtenerElemento(cod);
+							//dynamic_cast es la forma mas fiable de saber con que tratamos. Así evitamos problemas si usamos algun atributo como referencia.
+							if (dynamic_cast<Fuente*>(compPtr) != nullptr) {
+								//Se agrega con dynamic cast, sino lo reconoce como componente, además, se agrega como clonacion usando el constructor copia.
+								personalizado->agregar(new Fuente(*dynamic_cast<Fuente*>(compPtr)));
+								std::cout << "Se ha agregado la fuente de audio al sistema personalizado!\n\n";
+								comp = false; //Para salir del bucle
+								cambia++; //Se cambia a la siguiente etapa de personalizacion
+								system("PAUSE");
+							}
+							else {
+								std::cout << "El codigo ingresado no pertenece a un producto de la familia de fuentes de audio.\n¿Desea probar con otro? (1. Si || 0. No): ";
+								if (!(std::cin >> comp)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
+								rep = comp;
+							}
 						}
 						else {
-							std::cout << "El codigo ingresado no pertenece a un producto de la familia de fuentes de audio.\n¿Desea probar con otro? (1. Si || 0. No): ";
+							std::cout << "El codigo ingresado no pertenece a ninguna fuente de audio.\n¿Desea probar con otro? (1. Si || 0. No): ";
 							if (!(std::cin >> comp)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
 							rep = comp;
 						}
 					}
-					else {
-						std::cout << "El codigo ingresado no pertenece a ninguna fuente de audio.\n¿Desea probar con otro? (1. Si || 0. No): ";
-						if (!(std::cin >> comp)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
-						rep = comp;
+					catch (Excepcion* e) { //Si se ingresó un valor no correspondiente se recibe una excepcion y se muestra el mensaje de error.
+						std::cout << e->toString() << '\n';
+						std::cin.clear(); //Se limpia el buffer de entrada.
+						std::cin.ignore(1000, '\n'); //Se ignora el resto de la linea.
+						system("PAUSE");
 					}
-				}
-				catch (Excepcion* e) { //Si se ingresó un valor no correspondiente se recibe una excepcion y se muestra el mensaje de error.
-					std::cout << e->toString() << '\n';
-					std::cin.clear(); //Se limpia el buffer de entrada.
-					std::cin.ignore(1000, '\n'); //Se ignora el resto de la linea.
-					system("PAUSE");
-				}
-			} while (comp);
-			break;
+				} while (comp);
+				break;
 
-		case 2:
-			comp = true; //Se reinicia la variable para la siguiente etapa
-			do {
-				try {
-					system("CLS");
-					std::cout << "----------PERSONALIZANDO SISTEMA----------\n";
-					std::cout << tienda->getCatalogo()->mostrarProcesadores() << '\n';
-					std::cout << "Digite el modelo del procesador de señal que desea agregar al sistema: ";
-					std::cin >> cod;
+			case 2:
+				comp = true; //Se reinicia la variable para la siguiente etapa
+				do {
+					try {
+						system("CLS");
+						std::cout << "----------PERSONALIZANDO SISTEMA----------\n";
+						std::cout << tienda->getCatalogo()->mostrarProcesadores() << '\n';
+						std::cout << "Digite el modelo del procesador de señal que desea agregar al sistema: ";
+						std::cin >> cod;
 
-					if (tienda->getCatalogo()->getListProductos()->existeElemento(cod)) {
-						Componente* compPtr = tienda->getCatalogo()->getListProductos()->obtenerElemento(cod);
-						if (compPtr->getCategoria() == "Procesador Señal") {
-							//if (!compPtr->esSistema() && dynamic_cast<Procesador*>(compPtr) != nullptr) {
-							//Se agrega con dynamic cast, sino lo reconoce como componente, además, se agrega como clonacion usando el constructor copia.
-							personalizado->agregar(new Procesador(*dynamic_cast<Procesador*>(compPtr)));
-							std::cout << "Se ha agregado el procesador de señal al sistema personalizado!\n\n";
-							cambia++; //Se cambia a la siguiente etapa de personalizacion 
-							comp = false;
-							system("PAUSE");
+						if (tienda->getCatalogo()->getListProductos()->existeElemento(cod)) {
+							Componente* compPtr = tienda->getCatalogo()->getListProductos()->obtenerElemento(cod);
+							//dynamic_cast es la forma mas fiable de saber con que tratamos. Así evitamos problemas si usamos algun atributo como referencia.
+							if (dynamic_cast<Procesador*>(compPtr) != nullptr) {
+								//Se agrega con dynamic cast, sino lo reconoce como componente, además, se agrega como clonacion usando el constructor copia.
+								personalizado->agregar(new Procesador(*dynamic_cast<Procesador*>(compPtr)));
+								std::cout << "Se ha agregado el procesador de señal al sistema personalizado!\n\n";
+								cambia++; //Se cambia a la siguiente etapa de personalizacion 
+								comp = false;
+								system("PAUSE");
+							}
+							else {
+								std::cout << "El codigo ingresado no pertenece a ningún producto de la familia de procesadores de señal.\n¿Desea probar con otro? (1. Si || 0. No): ";
+								if (!(std::cin >> comp)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
+								rep = comp;
+							}
 						}
 						else {
-							std::cout << "El codigo ingresado no pertenece a ningún producto de la familia de procesadores de señal.\n¿Desea probar con otro? (1. Si || 0. No): ";
+							std::cout << "El codigo ingresado no pertenece a ningun procesador de señal.\n¿Desea probar con otro? (1. Si || 0. No): ";
 							if (!(std::cin >> comp)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
 							rep = comp;
 						}
 					}
-					else {
-						std::cout << "El codigo ingresado no pertenece a ningun procesador de señal.\n¿Desea probar con otro? (1. Si || 0. No): ";
-						if (!(std::cin >> comp)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
-						rep = comp;
+					catch (Excepcion* e) { //Si se ingresó un valor no correspondiente se recibe una excepcion y se muestra el mensaje de error.
+						std::cout << e->toString() << '\n';
+						std::cin.clear(); //Se limpia el buffer de entrada.
+						std::cin.ignore(1000, '\n'); //Se ignora el resto de la linea.
+						system("PAUSE");
 					}
-				}
-				catch (Excepcion* e) { //Si se ingresó un valor no correspondiente se recibe una excepcion y se muestra el mensaje de error.
-					std::cout << e->toString() << '\n';
-					std::cin.clear(); //Se limpia el buffer de entrada.
-					std::cin.ignore(1000, '\n'); //Se ignora el resto de la linea.
-					system("PAUSE");
-				}
-			} while (comp);
-			break;
+				} while (comp);
+				break;
 
-		case 3:
-			comp = true; //Se reinicia la variable para la siguiente etapa
-			do {
-				try {
-					system("CLS");
-					std::cout << "----------PERSONALIZANDO SISTEMA----------\n";
-					std::cout << tienda->getCatalogo()->mostrarParlantes() << '\n';
-					std::cout << "Digite el modelo del parlante que desea agregar al sistema: ";
-					std::cin >> cod;
+			case 3:
+				comp = true; //Se reinicia la variable para la siguiente etapa
+				do {
+					try {
+						system("CLS");
+						std::cout << "----------PERSONALIZANDO SISTEMA----------\n";
+						std::cout << tienda->getCatalogo()->mostrarParlantes() << '\n';
+						std::cout << "Digite el modelo del parlante que desea agregar al sistema: ";
+						std::cin >> cod;
 
-					if (tienda->getCatalogo()->getListProductos()->existeElemento(cod)) {
-						Componente* compPtr = tienda->getCatalogo()->getListProductos()->obtenerElemento(cod);
-						if (compPtr->getCategoria() == "Parlante") {
-							//if (!compPtr->esSistema() && dynamic_cast<Parlante*>(compPtr) != nullptr) {
-							//Se agrega con dynamic cast, sino lo reconoce como componente, además, se agrega como clonacion usando el constructor copia.
-							personalizado->agregar(new Parlante(*dynamic_cast<Parlante*>(compPtr)));
-							std::cout << "Se ha agregado el parlante al sistema personalizado!\n\n";
+						if (tienda->getCatalogo()->getListProductos()->existeElemento(cod)) {
+							Componente* compPtr = tienda->getCatalogo()->getListProductos()->obtenerElemento(cod);
+							//dynamic_cast es la forma mas fiable de saber con que tratamos. Así evitamos problemas si usamos algun atributo como referencia.
+							if (!compPtr->esSistema() && dynamic_cast<Parlante*>(compPtr) != nullptr) {
+								//Se agrega con dynamic cast, sino lo reconoce como componente, además, se agrega como clonacion usando el constructor copia.
+								personalizado->agregar(new Parlante(*dynamic_cast<Parlante*>(compPtr)));
+								std::cout << "Se ha agregado el parlante al sistema personalizado!\n\n";
 
 
-							do {
-								std::cout << "Agregue un codigo identificador al sistema que ha creado: ";
-								std::cin >> cod;
-								if (!(tienda->getCatalogo()->getListProductos()->existeElemento(cod))) {
-									personalizado->setCodigo(cod);
-									comp = false; //Para salir de este bucle y el que le sigue.
-								}
-								else {
-									std::cout << "El codigo ingresado ya existe, por favor ingrese otro. ";
-									system("CLS");
-								}
-							} while (comp);
-							cambia++;
-							rep = false; //Para salir del bucle principal
+								do {
+									std::cout << "Agregue un codigo identificador al sistema que ha creado: ";
+									std::cin >> cod;
+									if (!(tienda->getCatalogo()->getListProductos()->existeElemento(cod))) {
+										personalizado->setCodigo(cod);
+										comp = false; //Para salir de este bucle y el que le sigue.
+									}
+									else {
+										std::cout << "El codigo ingresado ya existe, por favor ingrese otro. ";
+										system("CLS");
+									}
+								} while (comp);
+								cambia++;
+								rep = false; //Para salir del bucle principal
+							}
+							else {
+								std::cout << "El codigo ingresado no pertenece a ningún producto de la familia de parlentes.\n¿Desea probar con otro? (1. Si || 0. No): ";
+								if (!(std::cin >> comp)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
+								rep = comp; //Para salir del bucle principal en caso de que el usuario no quiera seguir personalizando
+							}
 						}
 						else {
-							std::cout << "El codigo ingresado no pertenece a ningún producto de la familia de parlentes.\n¿Desea probar con otro? (1. Si || 0. No): ";
+							std::cout << "El codigo ingresado no pertenece a ningún parlante.\n¿Desea probar con otro? (1. Si || 0. No): ";
 							if (!(std::cin >> comp)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
-							rep = comp; //Para salir del bucle principal en caso de que el usuario no quiera seguir personalizando
+							rep = comp;
 						}
 					}
-					else {
-						std::cout << "El codigo ingresado no pertenece a ningún parlante.\n¿Desea probar con otro? (1. Si || 0. No): ";
-						if (!(std::cin >> comp)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
-						rep = comp;
+					catch (Excepcion* e) { //Si se ingresó un valor no correspondiente se recibe una excepcion y se muestra el mensaje de error.
+						std::cout << e->toString() << '\n';
+						std::cin.clear(); //Se limpia el buffer de entrada.
+						std::cin.ignore(1000, '\n'); //Se ignora el resto de la linea.
+						system("PAUSE");
 					}
-				}
-				catch (Excepcion* e) { //Si se ingresó un valor no correspondiente se recibe una excepcion y se muestra el mensaje de error.
-					std::cout << e->toString() << '\n';
-					std::cin.clear(); //Se limpia el buffer de entrada.
-					std::cin.ignore(1000, '\n'); //Se ignora el resto de la linea.
-					system("PAUSE");
-				}
-			} while (comp);
-			break;
+				} while (comp);
+				break;
 
-		default:
-			break;
-		}
-	} while (rep);
+			default:
+				break;
+			}
+		} while (rep);
 
-	system("CLS");
-	if (donde) {
-		tienda->getCatalogo()->agregarProducto(personalizado);
-		std::cout << "El sistema ha sido agregado al catálogo exitosamente!\n\n";
-	}
-	else {
-		if (cambia == 4) { //Si es 4, se tiene un sistema completo.
-			carrito->insertarFinal(personalizado);
-			std::cout << "Listo! Tu sistema personalizado ha sido creado. Ahora puedes encontrarlo en tu carrito de compras!\n\n";
-			system("PAUSE");
+		system("CLS");
+		if (donde && cambia == 4) { //si donde es true es para agregar el sistema al catalogo y si cambia es 4, se tiene un sistema completo.
+			tienda->getCatalogo()->agregarProducto(personalizado);
+			std::cout << "El sistema ha sido agregado al catálogo exitosamente!\n\n";
 		}
 		else {
-			delete personalizado; //Se descarta el sistema personalizado, pues se cancelo la operacion.
-			std::cout << "El sistema personalizado se ha descartado...\n";
-			system("PAUSE");
+			if (!donde && cambia == 4) { //Si es 4, se tiene un sistema completo.
+				carrito->insertarFinal(personalizado);
+				std::cout << "Listo! Tu sistema personalizado ha sido creado. Ahora puedes encontrarlo en tu carrito de compras!\n\n";
+				system("PAUSE");
+			}
+			else {
+				delete personalizado; //Se descarta el sistema personalizado, pues se cancelo la operacion.
+				std::cout << "El sistema personalizado se ha descartado...\n";
+				system("PAUSE");
+			}
 		}
 	}
-	
+	else {
+		system("CLS");
+		std::cout << "No existen componentes necesarios para crear un sistema.\n"
+			<< "Debe haber al menos una fuente de audio, un procesador de señal y un parlante para poder personalizar un sistema.\n\n";
+		system("PAUSE");
+	}
 }
 
 void Menu::compraComponente(){
 	std::string cod;
-	bool sigue = true;
+	bool sigue = false;
 
-	do {
-		try {
-			system("CLS");
-			std::cout << tienda->getCatalogo()->mostrarSoloSistemas();
-			std::cout << "Ingrese el codigo del componente que desea agregar al carrito: ";
-			std::cin >> cod;
+	if (tienda->getCatalogo()->getListProductos()->existeTipoElemento(2)) { //El '2' corresponde a componentes.
+		do {
+			try {
+				system("CLS");
+				std::cout << tienda->getCatalogo()->mostrarSoloComponentes();
+				std::cout << "Ingrese el codigo del componente que desea agregar al carrito: ";
+				std::cin >> cod;
 
-			if (tienda->getCatalogo()->getListProductos()->existeElemento(cod)) {
-				Componente* compPtr = tienda->getCatalogo()->getListProductos()->obtenerElemento(cod);
+				if (tienda->getCatalogo()->getListProductos()->existeElemento(cod)) {
+					Componente* compPtr = tienda->getCatalogo()->getListProductos()->obtenerElemento(cod);
 
-				if (!compPtr->esSistema()) { // Se confirma que sea un componente, para evitar agregaciones de otros componentes en pantallas donde no corresponde.
-					int can;
-					std::cout << "¿Cuantas unidades desea?: ";
-					if (!(std::cin >> can)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
+					if (!compPtr->esSistema()) { // Se confirma que sea un componente, para evitar agregaciones de otros componentes en pantallas donde no corresponde.
+						int can;
+						std::cout << "¿Cuantas unidades desea?: ";
+						if (!(std::cin >> can)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
 
-					//if(compPtr->getCategoria() == "Fuente de Audio"){
-					if (dynamic_cast<Fuente*>(compPtr) != nullptr) {
-						for (int i = 0; i < can; i++) carrito->insertarFinal(new Fuente(*dynamic_cast<Fuente*>(compPtr)));
-					}
-					else {
-						//if(compPtr->getCategoria() == "Procesador Señal"){
-						if (dynamic_cast<Procesador*>(compPtr) != nullptr) {
-							for (int i = 0; i < can; i++) {
-								carrito->insertarFinal(new Procesador(*dynamic_cast<Procesador*>(compPtr)));
-							}
+						//El dynamic_cast es la medida más fiable para saber de que tipo es el componente, pues si bien la categoria
+						//no se puede cambiar, es mejor prevenir, así, un error no desencadena otro, y seguir una cadena de errores.
+						if (dynamic_cast<Fuente*>(compPtr) != nullptr) {
+							for (int i = 0; i < can; i++) carrito->insertarFinal(new Fuente(*dynamic_cast<Fuente*>(compPtr)));
 						}
 						else {
-							//if(compPtr->getCategoria() == "Parlante"){
-							if (dynamic_cast<Parlante*>(compPtr) != nullptr) {
+							if (dynamic_cast<Procesador*>(compPtr) != nullptr) {
 								for (int i = 0; i < can; i++) {
-									carrito->insertarFinal(new Parlante(*dynamic_cast<Parlante*>(compPtr)));
+									carrito->insertarFinal(new Procesador(*dynamic_cast<Procesador*>(compPtr)));
+								}
+							}
+							else {
+								if (dynamic_cast<Parlante*>(compPtr) != nullptr) {
+									for (int i = 0; i < can; i++) {
+										carrito->insertarFinal(new Parlante(*dynamic_cast<Parlante*>(compPtr)));
+									}
 								}
 							}
 						}
-					}
 
-					std::cout << "Se ha agregado al carrito de compras correctamente!\n\n";
-					std::cout << "Desea agregar algun otro componente al carrito? (1. Si || 0. No): ";
-					if (!(std::cin >> sigue)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
+						std::cout << "Se ha agregado al carrito de compras correctamente!\n\n";
+						std::cout << "Desea agregar algun otro componente al carrito? (1. Si || 0. No): ";
+						if (!(std::cin >> sigue)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
+					}
+					else {
+						std::cout << "El código ingresado no corresponde a ningún componente. ¿Desea probar con otro? (1. Si || 0. No): ";
+						if (!(std::cin >> sigue)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
+					}
 				}
 				else {
-					std::cout << "El código ingresado no corresponde a ningún componente. ¿Desea probar con otro? (1. Si || 0. No): ";
+					std::cout << "El código ingresado no existe. ¿Desea probar con otro? (1. Si || 0. No): ";
 					if (!(std::cin >> sigue)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
 				}
 			}
-			else {
-				std::cout << "El código ingresado no existe. ¿Desea probar con otro? (1. Si || 0. No): ";
-				if (!(std::cin >> sigue)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
+			catch (Excepcion* e) { //Si se ingresó un valor no correspondiente se recibe una excepcion y se muestra el mensaje de error.
+				std::cout << e->toString() << '\n';
+				std::cin.clear(); //Se limpia el buffer de entrada.
+				std::cin.ignore(1000, '\n'); //Se ignora el resto de la linea.
+				system("PAUSE");
 			}
-		}
-		catch (Excepcion* e) { //Si se ingresó un valor no correspondiente se recibe una excepcion y se muestra el mensaje de error.
-			std::cout << e->toString() << '\n';
-			std::cin.clear(); //Se limpia el buffer de entrada.
-			std::cin.ignore(1000, '\n'); //Se ignora el resto de la linea.
-			system("PAUSE");
-		}
-	} while (sigue);
+		} while (sigue);
+	}
+	else {
+		system("CLS");
+		std::cout << "No hay ningún componente en el catálogo.\n";
+		system("PAUSE");
+	}
+	
 }
 
 void Menu::confirmaCarrito(std::string _cliente) {
 	bool sigue = false;
-	//SEGUIR CON EXCEPCIONES DESDE AQUÍ
 	system("CLS");
 
 	try {
-		if (carrito != nullptr) {
+		if (carrito != nullptr && carrito->getCan() > 0 ) {
 			std::cout << "----------CARRITO DE COMPRAS----------\n";
 			std::cout << carrito->toString() << '\n';
 			std::cout << "¿Desea confirmar la compra? Digite '0' para volver. (1. Si || 0. No): ";
@@ -605,25 +695,35 @@ void Menu::confirmaCarrito(std::string _cliente) {
 
 					if (tienda->determinaCostoEnvio(envio) == 0) {
 						std::cout << "El código ingresado no corresponde a niguna de las direcciones de envío. Intentelo de nuevo.\n";
+						system("PAUSE");
 					}
 					else {
 						sigue = false;
 					}
 				} while (sigue);
-				tienda->agregarVenta(new VentaEnLinea(fecha, cliente, carrito, envio));
+				Venta* _venta = new VentaEnLinea(fecha, cliente, carrito, envio);
+				tienda->agregarVenta(_venta);
 				std::cout << "La compra se ha realizado con exito!\n";
-				carrito = nullptr; //Se vacia el carrito
+				carrito = new Lista<Componente>; 
 				system("PAUSE");
-
+				system("CLS");
+				std::cout << tienda->facturar(_venta); 
+				system("PAUSE");
 			}
 			else {
-				if (sigue) {
-					std::string nomFactura;
-					std::cout << "Digite el nombre al que debe ir dirigida la factura: ";
-					std::getline(std::cin, nomFactura);
-					tienda->agregarVenta(new VentaDirecta(fecha, carrito, nomFactura));
-					carrito = nullptr; //Se vacia el carrito
-				}
+				std::string nomFactura;
+				std::cout << "Digite el nombre al que debe ir dirigida la factura: ";
+				std::cin.ignore();
+				std::getline(std::cin, nomFactura);
+				Venta* _venta = new VentaDirecta(fecha, carrito, nomFactura);
+				tienda->agregarVenta(_venta);
+				std::cout << "La compra se ha realizado con exito!\n";
+				//Se crea un nuevo carrito para que el cliente pueda seguir comprando. Además, se quita la referencia al carrito anterior.
+				carrito = new Lista<Componente>;
+				system("PAUSE");
+				system("CLS");
+				std::cout << tienda->facturar(_venta);
+				system("PAUSE");
 			}
 		}
 	}
@@ -742,8 +842,7 @@ void Menu::actualizarItem(){
 					std::cout << "----------ACTUALIZACIÓN DEL SISTEMA CODIGO <" << compPtr->getId() << ">----------\n"
 						<< compPtr->toString() << '\n'
 						<< "1. Código\n"
-						<< "2. Componentes que lo Integran\n"
-						<< "3. Salir" //No se actualiza la categoría, pues es un atributo que no se debe cambiar.
+						<< "2. Salir\n" //A un sistema solo se le actualiza el codigo, cualquier cambio relaciondos a componentes requieren eliminacion.
 						<< "------------------------------------------\n"
 						<< "Ingrese una opción: ";
 					if (!(std::cin >> opcion)) throw new ExcepcionValor(); //Si se ingresa un valor no correspondiente se lanza una excepcion.
@@ -759,10 +858,6 @@ void Menu::actualizarItem(){
 						break;
 
 					case 2:
-						//VA
-						break;
-
-					case 3:
 						sigue = false;
 						system("CLS");
 						break;
@@ -900,7 +995,7 @@ void Menu::ingresarComponente() {
 				std::getline(std::cin, caract);
 
 				if (opcion == 1) tienda->agregarProductosCat(new Fuente("Fuente de Audio", tipo, modelo, caract, codig, precio));
-				else if (opcion == 2) tienda->agregarProductosCat(new Procesador("Procesador Señal", tipo, modelo, caract, codig, precio));
+				else if (opcion == 2) tienda->agregarProductosCat(new Procesador("Procesador", tipo, modelo, caract, codig, precio));
 				else if (opcion == 3) tienda->agregarProductosCat(new Parlante("Parlante", tipo, modelo, caract, codig, precio));
 
 				std::cout << "\nEl componente ha sido ingresado exitosamente!\n";
@@ -928,7 +1023,6 @@ void Menu::ingresarComponente() {
 
 void Menu::eliminarItem(){
 	std::string cod;
-	//std::cout << "Nota: La eliminacion de un componente implica la eliminacion de los sistemas donde esté incluido.\n\n";
 	std::cout << "----------ELIMINACION DE ITEM----------\n"
 		<< "Digite el codigo del item que desea eliminar (Componente o Sistema): ";
 	std::cin >> cod;
@@ -977,7 +1071,7 @@ void Menu::guardarDatos(){
 void Menu::cargarDatos(){
 	std::ifstream file; //ifstream permite abrir el archivo para lectura
 	std::string buffer;
-	std::string guardar[20];
+	std::string guardar[50];
 	int cant = 0;
 	system("CLS");
 
@@ -991,11 +1085,11 @@ void Menu::cargarDatos(){
 	else {
 		size_t posicion = 0; //Se utiliza un size_t para guardar la posición del punto y coma.
 		while (std::getline(file, buffer)) { //Se guarda en "buffer" la linea correspondiente hasta encontrar un salto de linea.
-			while ((posicion = buffer.find('\t')) != std::string::npos) {
+			while ((posicion = buffer.find(DELIMITA_CAMPO)) != std::string::npos) {
 				guardar[cant++] = buffer.substr(0, posicion); //Se guarda en el arreglo "guardar" la cadena de caracteres hasta el punto y coma.
 				buffer.erase(0, posicion + 1); //Se borra la cadena de caracteres hasta el punto y coma.
 			}
-			//tienda->cargarDatos(guardar, cant);
+			tienda->cargarDatos(guardar, cant);
 			cant = 0;
 		}
 	}
